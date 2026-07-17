@@ -11,28 +11,31 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = resolve(__dirname, '../public');
-const SVG_PATH = resolve(PUBLIC_DIR, 'og-default.svg');
-const PNG_PATH = resolve(PUBLIC_DIR, 'og-default.png');
+const ASSETS = [
+  { svg: 'og-default.svg', png: 'og-default.png' },
+  { svg: 'og-zealot.svg', png: 'og-zealot.png' },
+];
 
 async function main() {
-  if (!existsSync(SVG_PATH)) {
-    console.error(`✗ Missing source SVG at ${SVG_PATH}`);
-    process.exit(1);
+  for (const asset of ASSETS) {
+    const svgPath = resolve(PUBLIC_DIR, asset.svg);
+    const pngPath = resolve(PUBLIC_DIR, asset.png);
+    if (!existsSync(svgPath)) {
+      console.error(`✗ Missing source SVG at ${svgPath}`);
+      process.exit(1);
+    }
+    const svg = await readFile(svgPath);
+    const png = await sharp(svg, { density: 300 })
+      .resize(1200, 630, {
+        fit: 'contain',
+        background: { r: 10, g: 10, b: 10, alpha: 1 },
+      })
+      .png({ compressionLevel: 9, quality: 95 })
+      .toBuffer();
+    await writeFile(pngPath, png);
+    const { size } = await import('node:fs').then((m) => m.statSync(pngPath));
+    console.log(`✓ Generated ${pngPath} (${(size / 1024).toFixed(1)} KB)`);
   }
-
-  const svg = await readFile(SVG_PATH);
-  const png = await sharp(svg, { density: 300 })
-    .resize(1200, 630, {
-      fit: 'contain',
-      background: { r: 10, g: 10, b: 10, alpha: 1 },
-    })
-    .png({ compressionLevel: 9, quality: 95 })
-    .toBuffer();
-
-  await writeFile(PNG_PATH, png);
-
-  const { size } = await import('node:fs').then((m) => m.statSync(PNG_PATH));
-  console.log(`✓ Generated ${PNG_PATH} (${(size / 1024).toFixed(1)} KB)`);
 }
 
 main().catch((err) => {

@@ -57,6 +57,8 @@ export interface Model {
   outputPrice: number;
   /** Available endpoints */
   endpoints: ('serverless' | 'batch' | 'reserved' | 'dedicated')[];
+  /** Backend serving this model */
+  backend: 'vLLM' | 'Zealot';
   /** Short blurb for the catalog row */
   description: string;
   /** ISO release date of the upstream model (not our release) */
@@ -93,6 +95,7 @@ export const MODELS: Model[] = [
     inputPrice: 0.59,
     outputPrice: 0.79,
     endpoints: ['serverless', 'batch'],
+    backend: 'vLLM',
     description:
       "Meta's 70B instruction-tuned model. Strong general reasoning, code, and multilingual performance at a fraction of frontier pricing. 128K context.",
     released: '2024-12-06',
@@ -186,6 +189,7 @@ for chunk in stream:
     inputPrice: 0.05,
     outputPrice: 0.08,
     endpoints: ['serverless', 'batch'],
+    backend: 'vLLM',
     description:
       "Meta's 8B instruction-tuned model. Low latency and aggressive pricing make it ideal for high-volume production workloads. 128K context.",
     released: '2024-07-23',

@@ -31,6 +31,7 @@ const PAGES = [
   { slug: 'models', path: '/models' },
   { slug: 'pricing', path: '/pricing' },
   { slug: 'docs', path: '/docs' },
+  { slug: 'zealot', path: '/zealot' },
   { slug: 'contact', path: '/contact' },
   { slug: 'model-70b', path: '/docs/models/meta-llama-3.3-70b-instruct' },
   { slug: 'model-8b', path: '/docs/models/meta-llama-3.1-8b-instruct' },

@@ -109,6 +109,63 @@ for chunk in stream:
     features={features}
   />
 
+  {/* Zealot callout — the engine underneath */}
+  <section class="section zealot-callout">
+    <div class="container">
+      <div class="zealot-grid">
+        <div class="zealot-copy">
+          <span class="eyebrow">The engine</span>
+          <h2>Zealot — built so we can see every token.</h2>
+          <p class="muted">
+            We didn't fork an upstream engine. Zealot is our own Rust + CUDA
+            inference engine — Block Manager, Constrained Decode, and Scheduler
+            all written so the hot path has no interpreter and no GIL.
+            Default backend by Phase 3, with a public benchmark target of
+            80%+ of Together TIE.
+          </p>
+          <ul class="bullets muted">
+            <li>Memory-safe Block Manager — stale handles return <code>Err</code>, not corrupted KV cache</li>
+            <li>Compiled-DFA constrained decode — roughly 10× faster than Python outlines on schema traffic</li>
+            <li>Rust scheduler with OOM preemption — no GC pauses leaking into p99</li>
+            <li>Custom CUDA attention kernels for Llama-family models</li>
+          </ul>
+          <a href="/zealot" class="btn btn-secondary btn-lg zealot-cta">
+            Inside Zealot
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 8h10M9 4l4 4-4 4" />
+            </svg>
+          </a>
+        </div>
+        <aside class="zealot-bench card">
+          <header>
+            <h3>Public benchmark target</h3>
+            <span class="muted">Llama 3.1 workload · M12</span>
+          </header>
+          <div class="bench-row">
+            <span class="bench-label">Together TIE</span>
+            <span class="bench-bar"><span class="bench-fill ref" style="width: 100%"></span></span>
+            <span class="bench-value muted">100%</span>
+          </div>
+          <div class="bench-row">
+            <span class="bench-label">vLLM vanilla</span>
+            <span class="bench-bar"><span class="bench-fill" style="width: 55%"></span></span>
+            <span class="bench-value muted">~55%</span>
+          </div>
+          <div class="bench-row">
+            <span class="bench-label">Zealot 1.0</span>
+            <span class="bench-bar"><span class="bench-fill zealot" style="width: 80%"></span></span>
+            <span class="bench-value">≥80%</span>
+          </div>
+          <p class="footnote subtle">
+            Target measured against Together's published Llama 3.1 throughput
+            numbers on H100. Numbers will be reproduced at M3.3 with methodology
+            published alongside.
+          </p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
   {/* Model preview strip */}
   <section class="section-tight">
     <div class="container">
@@ -355,5 +412,132 @@ for chunk in stream:
   .code-copy .strip-link {
     margin-top: var(--space-6);
     display: inline-flex;
+  }
+
+  /* Zealot callout */
+  .zealot-callout {
+    background: var(--color-bg-elevated);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .zealot-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  @media (max-width: 1024px) {
+    .zealot-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+
+  .zealot-copy h2 {
+    margin-top: var(--space-3);
+    font-size: clamp(1.875rem, 4vw, 2.75rem);
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.1;
+    max-width: 20ch;
+  }
+
+  .zealot-copy > p {
+    margin-top: var(--space-5);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    max-width: 60ch;
+  }
+
+  .zealot-copy .bullets {
+    margin-top: var(--space-6);
+    max-width: 60ch;
+  }
+
+  .zealot-copy .bullets code {
+    background: var(--color-bg-code);
+    padding: 0.1em 0.4em;
+    border-radius: var(--radius-sm);
+    font-size: 0.92em;
+  }
+
+  .zealot-cta {
+    margin-top: var(--space-6);
+    display: inline-flex;
+  }
+
+  /* Benchmark card */
+  .zealot-bench {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+
+  .zealot-bench header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .zealot-bench h3 {
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+
+  .zealot-bench header .muted {
+    font-size: var(--text-xs);
+  }
+
+  .bench-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 48px;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .bench-label {
+    color: var(--color-fg-muted);
+    font-weight: 500;
+  }
+
+  .bench-bar {
+    height: 6px;
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .bench-fill {
+    display: block;
+    height: 100%;
+    background: var(--color-border-strong);
+    border-radius: var(--radius-full);
+  }
+
+  .bench-fill.ref {
+    background: var(--color-border-strong);
+  }
+
+  .bench-fill.zealot {
+    background: var(--gradient-brand);
+  }
+
+  .bench-value {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .zealot-bench .footnote {
+    margin-top: var(--space-2);
+    font-size: var(--text-xs);
+    line-height: var(--leading-relaxed);
+    max-width: 36ch;
   }
 </style>

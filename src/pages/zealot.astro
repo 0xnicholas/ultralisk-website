@@ -1,0 +1,689 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+import CodeBlock from '~/components/CodeBlock.astro';
+import CTA from '~/components/CTA.astro';
+import { MODULES, MILESTONES, POSITION_PILLARS } from '~/data/zealot';
+---
+
+<PageLayout
+  title="Zealot — Inference Engine"
+  description="Zealot is Ultralisk's self-developed inference engine. Rust + CUDA. 80%+ of Together TIE by Phase 3, with a memory-safe Block Manager and GIL-free constrained decode."
+  ogImage="/og-zealot.png"
+>
+  {/* Hero */}
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <span class="badge">
+        <span class="dot" aria-hidden="true"></span>
+        Phase 2 in progress · Default backend in Phase 3
+      </span>
+      <h1 class="hero-title">
+        Zealot.<br />
+        <span class="gradient-text">The engine under Ultralisk.</span>
+      </h1>
+      <p class="hero-sub">
+        We didn't fork vLLM. We didn't bolt onto an existing engine. We built
+        Zealot — a Rust + CUDA inference engine purpose-built for the workloads
+        we run, designed to be inspected end-to-end and tuned for the
+        economics that make Ultralisk cheaper than the alternatives.
+      </p>
+      <div class="hero-actions">
+        <a href="/contact" class="btn btn-lg btn-gradient">
+          Get notified at 1.0
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8h10M9 4l4 4-4 4" />
+          </svg>
+        </a>
+        <a href="#architecture" class="btn btn-lg btn-secondary">How it's built</a>
+      </div>
+    </div>
+  </section>
+
+  {/* Positioning pillars */}
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="eyebrow">Why we built it</span>
+        <h2>Three commitments behind the engine.</h2>
+      </header>
+      <div class="pillars">
+        {
+          POSITION_PILLARS.map((p, i) => (
+            <article class="pillar card">
+              <span class="pillar-num">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{p.title}</h3>
+              <p class="muted">{p.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* Language stack */}
+  <section id="architecture" class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="eyebrow">Architecture</span>
+        <h2>Three languages, one engine.</h2>
+        <p class="muted lede">
+          Rust owns the hot path. Python is embedded only where HuggingFace's
+          ecosystem earns its keep. CUDA is hand-tuned where it pays for itself.
+        </p>
+      </header>
+
+      <div class="stack">
+        <article class="stack-row rust">
+          <div class="stack-head">
+            <span class="lang-tag rust">Rust</span>
+            <h3>Host + scheduler</h3>
+          </div>
+          <ul class="stack-list">
+            <li><strong>gRPC server</strong> (tonic) — the network boundary</li>
+            <li><strong>Block Manager</strong> — paged KV cache</li>
+            <li><strong>Constrained Decode</strong> — compiled DFA, no GIL</li>
+            <li><strong>Scheduler</strong> — priority queue + OOM preemption</li>
+          </ul>
+        </article>
+
+        <article class="stack-row python">
+          <div class="stack-head">
+            <span class="lang-tag python">Python · PyO3</span>
+            <h3>Model loader only</h3>
+          </div>
+          <ul class="stack-list">
+            <li>Embeds <code>cpython</code> at startup</li>
+            <li>Loads HuggingFace weights into the Rust Block Manager</li>
+            <li>Exits the request path the moment inference begins</li>
+            <li>No per-request Python overhead</li>
+          </ul>
+        </article>
+
+        <article class="stack-row cuda">
+          <div class="stack-head">
+            <span class="lang-tag cuda">CUDA</span>
+            <h3>Where it matters</h3>
+          </div>
+          <ul class="stack-list">
+            <li><strong>Attention kernels</strong> — hand-tuned for Llama family</li>
+            <li><strong>Quantization</strong> — AWQ INT4, FP8, FP4 experiments</li>
+            <li>No generic matmul library — every kernel is custom-shaped</li>
+            <li>Built on <code>cudarc</code>, no Torch at request time</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {/* Core modules */}
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="eyebrow">Core modules</span>
+        <h2>Three things vLLM does in Python. Zealot does them in Rust.</h2>
+      </header>
+
+      <div class="modules">
+        {
+          MODULES.map((m, i) => (
+            <article class="module" id={m.id}>
+              <div class="module-copy">
+                <div class="module-head">
+                  <span class="module-num">{String(i + 1).padStart(2, '0')}</span>
+                  <h3>{m.name}</h3>
+                  <span class="phase-badge">Phase {m.phase}</span>
+                </div>
+                <p class="module-tagline">{m.tagline}</p>
+                <p class="muted">{m.description}</p>
+                <div class="alt">
+                  <span class="alt-label">Replaces</span>
+                  <span class="alt-name">{m.alternative}</span>
+                </div>
+                <p class="advantage">
+                  <strong>Why it matters:</strong> {m.advantage}
+                </p>
+              </div>
+              <div class="module-code">
+                <CodeBlock
+                  tabs={[{ label: 'Rust', language: 'python', code: m.code }]}
+                  filename={`${m.id}.rs`}
+                />
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* Roadmap */}
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="eyebrow">Roadmap</span>
+        <h2>From launch to 80% of Together TIE.</h2>
+        <p class="muted lede">
+          Engine work runs on a 12-month horizon. The public bar is concrete:
+          parity with Together Inference Engine on the Llama 3.1 workload by
+          the end of Phase 3.
+        </p>
+      </header>
+
+      <ol class="timeline">
+        {
+          MILESTONES.map((m, i) => (
+            <li class={`timeline-item status-${m.status}`}>
+              <div class="timeline-marker" aria-hidden="true">
+                <span class="timeline-dot" />
+                {i < MILESTONES.length - 1 && <span class="timeline-line" />}
+              </div>
+              <div class="timeline-content">
+                <header>
+                  <span class="timeline-month">{m.month}</span>
+                  <h3>{m.title}</h3>
+                  <span class={`status-pill status-${m.status}`}>{m.status.replace('-', ' ')}</span>
+                </header>
+                <p class="muted">{m.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  {/* CTA */}
+  <CTA
+    heading="Want early access to Zealot?"
+    body="We're onboarding design partners who want to compare Zealot head-to-head with their current inference stack. Tell us your workload and we'll set up a side-by-side."
+    primary={{ href: '/contact', label: 'Request benchmark' }}
+    secondary={{ href: '/models', label: 'See current models' }}
+  />
+</PageLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    position: relative;
+    padding-block: clamp(4rem, 12vw, 8rem);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero-glow {
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-glow);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    text-align: center;
+    max-width: 56rem;
+    margin-inline: auto;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-fg);
+  }
+
+  .badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-cyan-400);
+    box-shadow: 0 0 8px var(--color-cyan-400);
+  }
+
+  .hero-title {
+    margin-top: var(--space-5);
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: var(--tracking-tighter);
+    font-weight: 700;
+  }
+
+  .hero-sub {
+    margin-top: var(--space-6);
+    font-size: var(--text-lg);
+    color: var(--color-fg-muted);
+    max-width: 56ch;
+    margin-inline: auto;
+    line-height: var(--leading-relaxed);
+  }
+
+  .hero-actions {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: center;
+    margin-top: var(--space-8);
+  }
+
+  /* Section header */
+  .section-header {
+    max-width: 48rem;
+    margin-bottom: var(--space-10);
+  }
+
+  .section-header h2 {
+    margin-top: var(--space-3);
+    font-size: clamp(1.875rem, 4vw, 2.75rem);
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.1;
+  }
+
+  .section-header .lede {
+    margin-top: var(--space-4);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Pillars */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+
+  @media (max-width: 880px) {
+    .pillars {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .pillar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6);
+  }
+
+  .pillar-num {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-accent);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .pillar h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .pillar p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Stack */
+  .stack {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 880px) {
+    .stack {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .stack-row {
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-bg-elevated);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stack-row::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+
+  .stack-row.rust::before {
+    background: linear-gradient(90deg, #ce422b, transparent);
+  }
+
+  .stack-row.python::before {
+    background: linear-gradient(90deg, #3776ab, transparent);
+  }
+
+  .stack-row.cuda::before {
+    background: linear-gradient(90deg, #76b900, transparent);
+  }
+
+  .stack-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .lang-tag {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    width: fit-content;
+  }
+
+  .lang-tag.rust {
+    background: rgba(206, 66, 43, 0.15);
+    color: #ce422b;
+  }
+
+  .lang-tag.python {
+    background: rgba(55, 118, 171, 0.15);
+    color: #5a9bd4;
+  }
+
+  .lang-tag.cuda {
+    background: rgba(118, 185, 0, 0.15);
+    color: #76b900;
+  }
+
+  [data-theme='light'] .lang-tag.rust { color: #b13520; }
+  [data-theme='light'] .lang-tag.python { color: #2b5a87; }
+  [data-theme='light'] .lang-tag.cuda { color: #5a8c00; }
+
+  .stack-row h3 {
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+
+  .stack-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--color-fg-muted);
+  }
+
+  .stack-list li {
+    position: relative;
+    padding-left: var(--space-5);
+  }
+
+  .stack-list li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .stack-list strong {
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+
+  .stack-list code {
+    background: var(--color-bg-code);
+    padding: 0.1em 0.4em;
+    border-radius: var(--radius-sm);
+    font-size: 0.92em;
+    color: var(--color-fg);
+  }
+
+  /* Modules */
+  .modules {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .module {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-10);
+    align-items: center;
+  }
+
+  @media (max-width: 1024px) {
+    .module {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+  }
+
+  /* Alternate sides for visual rhythm */
+  .module:nth-child(even) {
+    grid-template-columns: 1.2fr 1fr;
+  }
+
+  .module:nth-child(even) .module-copy {
+    order: 2;
+  }
+
+  .module:nth-child(even) .module-code {
+    order: 1;
+  }
+
+  @media (max-width: 1024px) {
+    .module:nth-child(even) .module-copy,
+    .module:nth-child(even) .module-code {
+      order: initial;
+    }
+  }
+
+  .module-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .module-num {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-accent);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .module h3 {
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .phase-badge {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-subtle);
+    color: var(--color-fg-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+  }
+
+  .module-tagline {
+    margin-top: var(--space-2);
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+    color: var(--color-fg);
+  }
+
+  .module-copy p {
+    margin-top: var(--space-3);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+  }
+
+  .alt {
+    margin-top: var(--space-4);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+  }
+
+  .alt-label {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-fg-subtle);
+  }
+
+  .alt-name {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+
+  .advantage {
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+    border-left: 2px solid var(--color-violet-500);
+    background: linear-gradient(
+      90deg,
+      rgba(124, 58, 237, 0.08),
+      transparent 70%
+    );
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    color: var(--color-fg-muted);
+  }
+
+  .advantage strong {
+    color: var(--color-fg);
+  }
+
+  /* Timeline */
+  .timeline {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    max-width: 56rem;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: var(--space-4);
+    padding-bottom: var(--space-8);
+  }
+
+  .timeline-marker {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .timeline-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin-top: 0.4em;
+    flex-shrink: 0;
+    border: 2px solid var(--color-bg);
+  }
+
+  .timeline-line {
+    flex: 1;
+    width: 2px;
+    background: var(--color-border);
+    margin-top: 0.5rem;
+  }
+
+  .status-in-progress .timeline-dot {
+    background: var(--color-cyan-400);
+    box-shadow: 0 0 12px var(--color-cyan-400);
+  }
+
+  .status-shipped .timeline-dot {
+    background: #22c55e;
+    box-shadow: 0 0 12px #22c55e;
+  }
+
+  .status-planned .timeline-dot {
+    background: var(--color-violet-500);
+  }
+
+  .timeline-content header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-2);
+  }
+
+  .timeline-month {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-accent);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .timeline-content h3 {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .status-pill {
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: capitalize;
+    letter-spacing: 0;
+  }
+
+  .status-pill.status-in-progress {
+    background: rgba(34, 211, 238, 0.15);
+    color: var(--color-cyan-400);
+  }
+
+  [data-theme='light'] .status-pill.status-in-progress {
+    color: var(--color-cyan-700);
+  }
+
+  .status-pill.status-shipped {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+  }
+
+  .status-pill.status-planned {
+    background: var(--color-bg-subtle);
+    color: var(--color-fg-muted);
+  }
+
+  .timeline-content p {
+    max-width: 60ch;
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+  }
+</style>
