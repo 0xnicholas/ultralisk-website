@@ -102,11 +102,11 @@ export default function ModelFilter({ modelsJson, filtersJson }: Props) {
                   </div>
                 </div>
                 <a
-                  href={`https://${m.id}.example.com`}
+                  href={`/docs/models/${m.id}`}
                   class="btn btn-secondary"
-                  aria-label={`View ${m.name} in Console`}
+                  aria-label={`View ${m.name} API reference`}
                 >
-                  Try in Console
+                  API reference
                 </a>
               </footer>
             </article>

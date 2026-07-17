@@ -1,0 +1,42 @@
+/* ============================================================================
+   Shiki syntax highlighting — brand-aligned theme via CSS variables.
+   Astro's <Code theme="css-variables"> outputs --shiki-* variables per token.
+   ============================================================================ */
+
+:root {
+  /* Code block surfaces */
+  --astro-code-foreground: #e4e4e7;
+  --astro-code-background: transparent;
+  --astro-code-token-constant: #c4b5fd; /* violet-300 */
+  --astro-code-token-string: #67e8f9; /* cyan-300 */
+  --astro-code-token-comment: #71717a; /* ink-500 */
+  --astro-code-token-keyword: #a78bfa; /* violet-400 */
+  --astro-code-token-parameter: #f4f4f5; /* ink-100 */
+  --astro-code-token-function: #22d3ee; /* cyan-400 */
+  --astro-code-token-string-expression: #fde68a; /* amber-200 */
+  --astro-code-token-punctuation: #a1a1aa; /* ink-400 */
+  --astro-code-token-link: #67e8f9; /* cyan-300 */
+}
+
+[data-theme='light'] {
+  --astro-code-foreground: #27272a; /* ink-800 */
+  --astro-code-token-constant: #6d28d9; /* violet-600 */
+  --astro-code-token-string: #0e7490; /* cyan-700 */
+  --astro-code-token-comment: #71717a; /* ink-500 */
+  --astro-code-token-keyword: #6d28d9; /* violet-600 */
+  --astro-code-token-parameter: #18181b; /* ink-900 */
+  --astro-code-token-function: #0e7490; /* cyan-700 */
+  --astro-code-token-string-expression: #b45309; /* amber-700 */
+  --astro-code-token-punctuation: #52525b; /* ink-600 */
+  --astro-code-token-link: #0e7490; /* cyan-700 */
+}
+
+/* These are the names Shiki emits when theme="css-variables" */
+pre.astro-code,
+pre.astro-code span {
+  color: var(--shiki-default) !important;
+  background-color: var(--shiki-default-bg) !important;
+  font-style: var(--shiki-default-font-style) !important;
+  font-weight: var(--shiki-default-font-weight) !important;
+  text-decoration: var(--shiki-default-text-decoration) !important;
+}

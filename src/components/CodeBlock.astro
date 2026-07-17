@@ -1,7 +1,7 @@
 ---
 /**
- * CodeBlock — renders a tabbed code sample with Shiki highlight.
- * No JS framework needed; uses native radio inputs for tabs.
+ * CodeBlock — renders a tabbed code sample with Shiki highlight and a copy button.
+ * No client framework needed for tabs (CSS-only via radio inputs).
  *
  * Usage:
  *   <CodeBlock
@@ -13,6 +13,7 @@
  *   />
  */
 import { Code } from 'astro:components';
+import CopyButton from './CopyButton';
 
 export interface CodeTab {
   label: string;
@@ -28,6 +29,9 @@ export interface Props {
 
 const { tabs, filename } = Astro.props;
 const id = `cb-${Math.random().toString(36).slice(2, 9)}`;
+
+// Pre-serialize code payloads for the copy buttons (one per tab)
+const payloads = tabs.map((t) => JSON.stringify(t.code));
 ---
 
 <div class="codeblock" data-tabs={tabs.length}>
@@ -72,7 +76,10 @@ const id = `cb-${Math.random().toString(36).slice(2, 9)}`;
       {
         tabs.map((t, i) => (
           <div class="panel" data-panel={i}>
-            <Code code={t.code} lang={t.language} theme="github-dark" />
+            <div class="copy-slot">
+              <CopyButton client:load payload={payloads[i]} />
+            </div>
+            <Code code={t.code} lang={t.language} theme="css-variables" />
           </div>
         ))
       }
@@ -165,6 +172,7 @@ const id = `cb-${Math.random().toString(36).slice(2, 9)}`;
 
   .panel {
     display: none;
+    position: relative;
   }
 
   /* Tab activation via CSS */
@@ -189,7 +197,16 @@ const id = `cb-${Math.random().toString(36).slice(2, 9)}`;
     border: none;
     border-radius: 0;
     padding: var(--space-6);
+    padding-right: 5rem; /* room for copy button */
     background: var(--color-bg-code) !important;
+  }
+
+  /* Copy button slot */
+  .copy-slot {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    z-index: 2;
   }
 
   /* Screen reader only */
