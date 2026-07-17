@@ -166,6 +166,86 @@ for chunk in stream:
     </div>
   </section>
 
+  {/* Platform callout — the operations console */}
+  <section class="section platform-callout">
+    <div class="container">
+      <div class="platform-grid">
+        <aside class="platform-mockup card">
+          <header class="mockup-head">
+            <span class="dot-cluster"><span /><span /><span /></span>
+            <span class="mockup-title">console.ultralisk.io/gpu-utilization</span>
+            <span class="mockup-tag">Phase 2</span>
+          </header>
+          <div class="mockup-body">
+            <h3 class="mockup-h">GPU Utilization · last 24h</h3>
+            <div class="cards-row">
+              <div class="kpi">
+                <span class="kpi-label">Avg</span>
+                <span class="kpi-value">68%</span>
+              </div>
+              <div class="kpi">
+                <span class="kpi-label">GPUs</span>
+                <span class="kpi-value">312 / 384</span>
+              </div>
+              <div class="kpi">
+                <span class="kpi-label">Idle</span>
+                <span class="kpi-value warn">72</span>
+              </div>
+            </div>
+            <svg class="chart-svg" viewBox="0 0 600 100" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="p-llama" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="p-8b" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M 0 60 L 60 50 L 120 45 L 180 30 L 240 35 L 300 20 L 360 25 L 420 18 L 480 30 L 540 25 L 600 35 L 600 100 L 0 100 Z" fill="url(#p-llama)"/>
+              <path d="M 0 60 L 60 50 L 120 45 L 180 30 L 240 35 L 300 20 L 360 25 L 420 18 L 480 30 L 540 25 L 600 35" stroke="#a78bfa" stroke-width="2" fill="none"/>
+              <path d="M 0 80 L 60 75 L 120 78 L 180 70 L 240 68 L 300 65 L 360 70 L 420 65 L 480 72 L 540 68 L 600 75 L 600 100 L 0 100 Z" fill="url(#p-8b)"/>
+              <path d="M 0 80 L 60 75 L 120 78 L 180 70 L 240 68 L 300 65 L 360 70 L 420 65 L 480 72 L 540 68 L 600 75" stroke="#22d3ee" stroke-width="2" fill="none"/>
+            </svg>
+            <div class="breakdown">
+              <span class="breakdown-label muted">By model</span>
+              <div class="breakdown-bar">
+                <span class="bb-seg" style="width:62%; background: linear-gradient(90deg, #7c3aed, #a78bfa);"></span>
+                <span class="bb-seg" style="width:22%; background: linear-gradient(90deg, #22d3ee, #67e8f9);"></span>
+                <span class="bb-seg" style="width:16%; background: #3f3f46;"></span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <div class="platform-copy">
+          <span class="eyebrow">The platform</span>
+          <h2>Not just an API. A console your SRE will actually use.</h2>
+          <p class="muted">
+            Inference is the easy part. Knowing what your fleet is doing — who
+            is spending what, where the next bottleneck lives — is where teams
+            lose weekends. Ultralisk ships the Operations surface that comes
+            with running your own GPU cluster, without having to run one.
+          </p>
+          <ul class="bullets muted">
+            <li><strong>GPU Utilization</strong> — real utilization per cluster, model, tenant (not what the scheduler reports)</li>
+            <li><strong>Cost Analytics</strong> — spend by model, endpoint, API key, team, project</li>
+            <li><strong>Incidents</strong> — p99 spikes, OOM events, evictions, surfaced to Slack / PagerDuty</li>
+            <li><strong>Multi-tenancy</strong> — Organization → Project → Resource with RBAC at every boundary</li>
+            <li><strong>Private deployment</strong> — same Console on your data center, no Ultralisk telemetry leaves (Phase 3)</li>
+          </ul>
+          <a href="/platform" class="btn btn-secondary btn-lg platform-cta">
+            See the platform
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 8h10M9 4l4 4-4 4" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   {/* Model preview strip */}
   <section class="section-tight">
     <div class="container">
@@ -539,5 +619,193 @@ for chunk in stream:
     font-size: var(--text-xs);
     line-height: var(--leading-relaxed);
     max-width: 36ch;
+  }
+
+  /* Platform callout (mirrors Zealot section structure) */
+  .platform-callout {
+    background: var(--color-bg);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .platform-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  @media (max-width: 1024px) {
+    .platform-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+
+  .platform-copy h2 {
+    margin-top: var(--space-3);
+    font-size: clamp(1.875rem, 4vw, 2.75rem);
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.1;
+    max-width: 22ch;
+  }
+
+  .platform-copy > p {
+    margin-top: var(--space-5);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    max-width: 60ch;
+  }
+
+  .platform-copy .bullets {
+    margin-top: var(--space-6);
+    max-width: 60ch;
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+
+  .platform-copy .bullets strong {
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+
+  .platform-cta {
+    margin-top: var(--space-6);
+    display: inline-flex;
+  }
+
+  /* Platform mockup card */
+  .platform-mockup {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .platform-mockup .mockup-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-bg-elevated);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .platform-mockup .dot-cluster {
+    display: inline-flex;
+    gap: 6px;
+  }
+
+  .platform-mockup .dot-cluster span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-border-strong);
+  }
+
+  .platform-mockup .dot-cluster span:nth-child(1) {
+    background: #ff5f57;
+  }
+
+  .platform-mockup .dot-cluster span:nth-child(2) {
+    background: #febc2e;
+  }
+
+  .platform-mockup .dot-cluster span:nth-child(3) {
+    background: #28c840;
+  }
+
+  .platform-mockup .mockup-title {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-fg-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .platform-mockup .mockup-tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-full);
+    background: var(--gradient-brand);
+    color: white;
+  }
+
+  .platform-mockup .mockup-body {
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .platform-mockup .mockup-h {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .platform-mockup .cards-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+  }
+
+  .platform-mockup .kpi {
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-elevated);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .platform-mockup .kpi-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-fg-subtle);
+  }
+
+  .platform-mockup .kpi-value {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-fg);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+
+  .platform-mockup .kpi-value.warn {
+    color: #f59e0b;
+  }
+
+  .platform-mockup .chart-svg {
+    width: 100%;
+    height: 100px;
+    display: block;
+  }
+
+  .platform-mockup .breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .platform-mockup .breakdown-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+  }
+
+  .platform-mockup .breakdown-bar {
+    display: flex;
+    height: 6px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+  }
+
+  .platform-mockup .bb-seg {
+    height: 100%;
   }
 </style>

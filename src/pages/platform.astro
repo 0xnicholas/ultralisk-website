@@ -1,0 +1,892 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+import CTA from '~/components/CTA.astro';
+import { PERSONAS, CAPABILITIES } from '~/data/platform';
+import { SITE } from '~/consts';
+
+const phaseLabel = (p: number) => (p === 1 ? 'Available now' : p === 2 ? 'Phase 2 — Q2' : 'Phase 3 — Q4');
+---
+
+<PageLayout
+  title="Platform"
+  description="Beyond the API: GPU observability, cost attribution, multi-tenancy, and private deployment. The same Console that runs Ultralisk, available with your fleet."
+>
+  {/* Hero */}
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <span class="badge">Console + Operations · Phase 1–3</span>
+      <h1 class="hero-title">
+        Beyond the API.<br />
+        <span class="gradient-text">A console your platform team will actually use.</span>
+      </h1>
+      <p class="hero-sub">
+        Inference is the easy part. Knowing what your fleet is doing, who is
+        spending what, and where the next bottleneck lives — that is the hard
+        part. Ultralisk ships the operations surface that comes with running
+        your own GPU cluster, without having to run one.
+      </p>
+      <div class="hero-actions">
+        <a href={SITE.consoleUrl} class="btn btn-lg btn-gradient">
+          See the Console
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8h10M9 4l4 4-4 4" />
+          </svg>
+        </a>
+        <a href="#capabilities" class="btn btn-lg btn-secondary">What ships in each phase</a>
+      </div>
+    </div>
+  </section>
+
+  {/* Personas */}
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="eyebrow">Built for four jobs</span>
+        <h2>Four people, one Console.</h2>
+        <p class="muted lede">
+          The same surface serves the developer shipping a feature on Friday and
+          the SRE paged at 3 a.m. — different views, same source of truth.
+        </p>
+      </header>
+
+      <div class="personas">
+        {
+          PERSONAS.map((p) => (
+            <article class="persona card">
+              <header>
+                <span class="persona-avatar" aria-hidden="true">{p.name[0]}</span>
+                <div>
+                  <h3>{p.name}</h3>
+                  <p class="muted persona-role">{p.role}</p>
+                </div>
+                <span class={`persona-badge phase-${p.badge.includes('1') ? '1' : p.badge.includes('2') ? '2' : '3'}`}>
+                  {p.badge}
+                </span>
+              </header>
+              <p class="persona-story">{p.story}</p>
+              <ul class="persona-features">
+                {p.features.map((f) => (
+                  <li>{f}</li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* Console mockups */}
+  <section class="section console-section">
+    <div class="container">
+      <header class="section-header">
+        <span class="eyebrow">Inside the Console</span>
+        <h2>Two views your team will live in.</h2>
+      </header>
+
+      <div class="mockups">
+        {/* GPU Utilization mockup */}
+        <article class="mockup" id="mockup-gpu">
+          <header class="mockup-head">
+            <span class="dot-cluster">
+              <span /><span /><span />
+            </span>
+            <span class="mockup-title">console.ultralisk.io/gpu-utilization</span>
+            <span class="mockup-tag">Phase 2</span>
+          </header>
+          <div class="mockup-body">
+            <h3 class="mockup-h">GPU Utilization</h3>
+            <div class="cards-row">
+              <div class="kpi">
+                <span class="kpi-label">Avg utilization</span>
+                <span class="kpi-value">68%</span>
+                <span class="kpi-trend up">↑ 4 pts vs 7d</span>
+              </div>
+              <div class="kpi">
+                <span class="kpi-label">Active GPUs</span>
+                <span class="kpi-value">312 <span class="kpi-sub">/ 384</span></span>
+                <span class="kpi-sub muted">H100 · 4 clusters</span>
+              </div>
+              <div class="kpi">
+                <span class="kpi-label">Idle capacity</span>
+                <span class="kpi-value warn">72</span>
+                <span class="kpi-sub muted">Reclaimable</span>
+              </div>
+            </div>
+
+            <div class="chart">
+              <div class="chart-title">
+                <span>Utilization · last 24h</span>
+                <span class="chart-legend">
+                  <span class="legend-swatch llama"></span> Llama 3.3 70B
+                  <span class="legend-swatch mistral"></span> Llama 3.1 8B
+                </span>
+              </div>
+              <svg class="chart-svg" viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                  <linearGradient id="llama-fill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+                  </linearGradient>
+                  <linearGradient id="mistral-fill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.5"/>
+                    <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <g stroke="rgba(255,255,255,0.06)">
+                  <line x1="0" y1="35" x2="600" y2="35"/>
+                  <line x1="0" y1="70" x2="600" y2="70"/>
+                  <line x1="0" y1="105" x2="600" y2="105"/>
+                </g>
+                <path d="M 0 90 L 30 80 L 60 70 L 90 75 L 120 50 L 150 45 L 180 55 L 210 35 L 240 40 L 270 30 L 300 25 L 330 35 L 360 20 L 390 30 L 420 25 L 450 40 L 480 30 L 510 50 L 540 45 L 570 60 L 600 50 L 600 140 L 0 140 Z" fill="url(#llama-fill)"/>
+                <path d="M 0 90 L 30 80 L 60 70 L 90 75 L 120 50 L 150 45 L 180 55 L 210 35 L 240 40 L 270 30 L 300 25 L 330 35 L 360 20 L 390 30 L 420 25 L 450 40 L 480 30 L 510 50 L 540 45 L 570 60 L 600 50" stroke="#a78bfa" stroke-width="2" fill="none"/>
+                <path d="M 0 115 L 50 110 L 100 105 L 150 100 L 200 95 L 250 100 L 300 92 L 350 90 L 400 88 L 450 95 L 500 90 L 550 95 L 600 100 L 600 140 L 0 140 Z" fill="url(#mistral-fill)"/>
+                <path d="M 0 115 L 50 110 L 100 105 L 150 100 L 200 95 L 250 100 L 300 92 L 350 90 L 400 88 L 450 95 L 500 90 L 550 95 L 600 100" stroke="#22d3ee" stroke-width="2" fill="none"/>
+              </svg>
+            </div>
+
+            <div class="breakdown">
+              <div class="breakdown-row">
+                <span class="breakdown-label">By model</span>
+                <div class="breakdown-bar">
+                  <span class="bb-seg" style="width:62%; background: linear-gradient(90deg, #7c3aed, #a78bfa);"></span>
+                  <span class="bb-seg" style="width:22%; background: linear-gradient(90deg, #22d3ee, #67e8f9);"></span>
+                  <span class="bb-seg" style="width:8%; background: #3f3f46;"></span>
+                </div>
+                <span class="breakdown-meta muted">70B · 8B · other</span>
+              </div>
+              <div class="breakdown-row">
+                <span class="breakdown-label">By tenant</span>
+                <div class="breakdown-bar">
+                  <span class="bb-seg" style="width:48%; background: linear-gradient(90deg, #7c3aed, #a78bfa);"></span>
+                  <span class="bb-seg" style="width:31%; background: linear-gradient(90deg, #22d3ee, #67e8f9);"></span>
+                  <span class="bb-seg" style="width:21%; background: #52525b;"></span>
+                </div>
+                <span class="breakdown-meta muted">acme · globex · initech</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        {/* Cost Analytics mockup */}
+        <article class="mockup" id="mockup-cost">
+          <header class="mockup-head">
+            <span class="dot-cluster">
+              <span /><span /><span />
+            </span>
+            <span class="mockup-title">console.ultralisk.io/cost-analytics</span>
+            <span class="mockup-tag">Phase 1</span>
+          </header>
+          <div class="mockup-body">
+            <h3 class="mockup-h">Cost Analytics · November</h3>
+            <div class="cards-row">
+              <div class="kpi">
+                <span class="kpi-label">Total spend</span>
+                <span class="kpi-value">$18,420</span>
+                <span class="kpi-trend down">↓ 12% vs Oct</span>
+              </div>
+              <div class="kpi">
+                <span class="kpi-label">Batch share</span>
+                <span class="kpi-value">41%</span>
+                <span class="kpi-sub muted">async workloads at 50% off</span>
+              </div>
+              <div class="kpi">
+                <span class="kpi-label">Forecast</span>
+                <span class="kpi-value">$19.8k</span>
+                <span class="kpi-sub muted">end of month</span>
+              </div>
+            </div>
+
+            <table class="cost-table">
+              <thead>
+                <tr>
+                  <th>Project</th>
+                  <th>Model</th>
+                  <th class="num">Tokens</th>
+                  <th class="num">Spend</th>
+                  <th class="num">Δ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>support-bot</strong></td>
+                  <td class="muted">Llama 3.1 8B</td>
+                  <td class="num">2.4B</td>
+                  <td class="num">$312</td>
+                  <td class="num down">−8%</td>
+                </tr>
+                <tr>
+                  <td><strong>code-review</strong></td>
+                  <td class="muted">Llama 3.3 70B</td>
+                  <td class="num">480M</td>
+                  <td class="num">$663</td>
+                  <td class="num up">+22%</td>
+                </tr>
+                <tr>
+                  <td><strong>embeddings-pipeline</strong></td>
+                  <td class="muted">batch jobs</td>
+                  <td class="num">8.1B</td>
+                  <td class="num">$2,041</td>
+                  <td class="num down">−3%</td>
+                </tr>
+                <tr>
+                  <td><strong>eval-suite</strong></td>
+                  <td class="muted">mixed</td>
+                  <td class="num">1.2B</td>
+                  <td class="num">$487</td>
+                  <td class="num up">+5%</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="breakdown">
+              <div class="breakdown-row">
+                <span class="breakdown-label">By endpoint</span>
+                <div class="breakdown-bar">
+                  <span class="bb-seg" style="width:55%; background: linear-gradient(90deg, #7c3aed, #a78bfa);"></span>
+                  <span class="bb-seg" style="width:38%; background: linear-gradient(90deg, #22d3ee, #67e8f9);"></span>
+                  <span class="bb-seg" style="width:7%; background: #3f3f46;"></span>
+                </div>
+                <span class="breakdown-meta muted">serverless · batch · reserved</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {/* Capability matrix */}
+  <section id="capabilities" class="section">
+    <div class="container">
+      <header class="section-header">
+        <span class="eyebrow">Capability matrix</span>
+        <h2>What ships when.</h2>
+        <p class="muted lede">
+          Phase 1 is shipped. Phase 2 is in active development. Phase 3 is
+          roadmap — the items below are scoped but dates are subject to GPU
+          engineer hiring.
+        </p>
+      </header>
+
+      <div class="matrix">
+        {
+          CAPABILITIES.map((c) => (
+            <article class={`cap phase-${c.phase}`}>
+              <header>
+                <h3>{c.name}</h3>
+                <span class="phase-pill">{phaseLabel(c.phase)}</span>
+              </header>
+              <p class="cap-tagline">{c.tagline}</p>
+              <p class="muted cap-body">{c.body}</p>
+              <footer>
+                <span class="cap-for muted">For:</span>
+                <ul class="cap-personas">
+                  {c.personas.map((pid) => {
+                    const persona = PERSONAS.find((p) => p.id === pid);
+                    return (
+                      <li class="cap-persona">{persona?.name}</li>
+                    );
+                  })}
+                </ul>
+              </footer>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CTA
+    heading="Want a walkthrough of the Console?"
+    body="We can spin up a sandbox with your team's data shape — same Operations surfaces, populated with synthetic workloads, no strings attached."
+    primary={{ href: '/contact', label: 'Request sandbox' }}
+    secondary={{ href: '/docs', label: 'See the quickstart' }}
+  />
+</PageLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    position: relative;
+    padding-block: clamp(4rem, 12vw, 8rem);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero-glow {
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-glow);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    text-align: center;
+    max-width: 56rem;
+    margin-inline: auto;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-fg);
+  }
+
+  .hero-title {
+    margin-top: var(--space-5);
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: var(--tracking-tighter);
+    font-weight: 700;
+  }
+
+  .hero-sub {
+    margin-top: var(--space-6);
+    font-size: var(--text-lg);
+    color: var(--color-fg-muted);
+    max-width: 58ch;
+    margin-inline: auto;
+    line-height: var(--leading-relaxed);
+  }
+
+  .hero-actions {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: center;
+    margin-top: var(--space-8);
+  }
+
+  /* Section header */
+  .section-header {
+    max-width: 48rem;
+    margin-bottom: var(--space-10);
+  }
+
+  .section-header h2 {
+    margin-top: var(--space-3);
+    font-size: clamp(1.875rem, 4vw, 2.75rem);
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.1;
+  }
+
+  .section-header .lede {
+    margin-top: var(--space-4);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Personas */
+  .personas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 1024px) {
+    .personas {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .personas {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .persona {
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .persona > header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .persona > header > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .persona h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .persona-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-brand);
+    color: white;
+    font-weight: 700;
+    font-size: var(--text-base);
+    flex-shrink: 0;
+  }
+
+  .persona-role {
+    font-size: var(--text-xs);
+  }
+
+  .persona-badge {
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-full);
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: var(--color-bg-subtle);
+    color: var(--color-fg-muted);
+    white-space: nowrap;
+  }
+
+  .persona-badge.phase-2 {
+    background: rgba(34, 211, 238, 0.12);
+    color: var(--color-cyan-400);
+  }
+
+  [data-theme='light'] .persona-badge.phase-2 {
+    color: var(--color-cyan-700);
+  }
+
+  .persona-badge.phase-3 {
+    background: rgba(124, 58, 237, 0.12);
+    color: var(--color-violet-400);
+  }
+
+  .persona-story {
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--color-fg-muted);
+  }
+
+  .persona-features {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
+  }
+
+  .persona-features li {
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-subtle);
+    color: var(--color-fg);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    border: 1px solid var(--color-border);
+  }
+
+  /* Console mockups */
+  .console-section {
+    background: var(--color-bg-elevated);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .mockups {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+
+  @media (max-width: 1024px) {
+    .mockups {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .mockup {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-bg);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+
+  .mockup-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-bg-elevated);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .dot-cluster {
+    display: inline-flex;
+    gap: 6px;
+  }
+
+  .dot-cluster span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-border-strong);
+  }
+
+  .dot-cluster span:nth-child(1) {
+    background: #ff5f57;
+  }
+  .dot-cluster span:nth-child(2) {
+    background: #febc2e;
+  }
+  .dot-cluster span:nth-child(3) {
+    background: #28c840;
+  }
+
+  .mockup-title {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-fg-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mockup-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-full);
+    background: var(--gradient-brand);
+    color: white;
+  }
+
+  .mockup-body {
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .mockup-h {
+    font-size: var(--text-base);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-2);
+  }
+
+  .cards-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+
+  @media (max-width: 480px) {
+    .cards-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .kpi {
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-elevated);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .kpi-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-fg-subtle);
+  }
+
+  .kpi-value {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-fg);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+
+  .kpi-value.warn {
+    color: #f59e0b;
+  }
+
+  .kpi-sub {
+    font-size: 0.7rem;
+    color: var(--color-fg-subtle);
+  }
+
+  .kpi-trend {
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+
+  .kpi-trend.up {
+    color: #22c55e;
+  }
+
+  .kpi-trend.down {
+    color: var(--color-fg-muted);
+  }
+
+  /* Chart */
+  .chart {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-elevated);
+    padding: var(--space-3);
+  }
+
+  .chart-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.7rem;
+    color: var(--color-fg-subtle);
+    margin-bottom: var(--space-2);
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .chart-legend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+  }
+
+  .legend-swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+
+  .legend-swatch.llama {
+    background: #a78bfa;
+  }
+
+  .legend-swatch.mistral {
+    background: #22d3ee;
+  }
+
+  .chart-svg {
+    width: 100%;
+    height: 140px;
+    display: block;
+  }
+
+  /* Breakdown */
+  .breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .breakdown-row {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-xs);
+  }
+
+  .breakdown-label {
+    color: var(--color-fg-muted);
+    font-weight: 500;
+  }
+
+  .breakdown-bar {
+    display: flex;
+    height: 8px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+  }
+
+  .bb-seg {
+    height: 100%;
+  }
+
+  .breakdown-meta {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-align: right;
+  }
+
+  /* Cost table */
+  .cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .cost-table th {
+    text-align: left;
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-bg-subtle);
+    color: var(--color-fg-subtle);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    font-weight: 600;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .cost-table td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .cost-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .cost-table .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-family: var(--font-mono);
+  }
+
+  .cost-table .up {
+    color: #f59e0b;
+  }
+
+  .cost-table .down {
+    color: #22c55e;
+  }
+
+  /* Capability matrix */
+  .matrix {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+  }
+
+  @media (max-width: 880px) {
+    .matrix {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .cap {
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-bg-elevated);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    position: relative;
+  }
+
+  .cap::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+
+  .cap.phase-1::before {
+    background: #22c55e;
+  }
+
+  .cap.phase-2::before {
+    background: var(--color-cyan-400);
+  }
+
+  .cap.phase-3::before {
+    background: var(--color-violet-500);
+  }
+
+  .cap > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: var(--space-3);
+  }
+
+  .cap h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .phase-pill {
+    flex-shrink: 0;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-full);
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    background: var(--color-bg-subtle);
+    color: var(--color-fg-muted);
+  }
+
+  .cap-tagline {
+    font-size: var(--text-base);
+    line-height: var(--leading-snug);
+    color: var(--color-fg);
+    font-weight: 500;
+  }
+
+  .cap-body {
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+
+  .cap footer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+    flex-wrap: wrap;
+  }
+
+  .cap-for {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    font-weight: 600;
+  }
+
+  .cap-personas {
+    list-style: none;
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .cap-persona {
+    padding: 0.1rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-subtle);
+    color: var(--color-fg);
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+</style>

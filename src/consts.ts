@@ -16,6 +16,7 @@ export const SITE = {
 export const NAV = [
   { href: '/models', label: 'Models' },
   { href: '/pricing', label: 'Pricing' },
+  { href: '/platform', label: 'Platform' },
   { href: '/zealot', label: 'Engine' },
   { href: '/docs', label: 'Quickstart' },
   { href: '/contact', label: 'Request access' },
