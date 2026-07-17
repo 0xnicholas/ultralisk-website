@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # astro
 .astro/
+
+# screenshots (regenerable via scripts/screenshot.mjs)
+screenshots/
