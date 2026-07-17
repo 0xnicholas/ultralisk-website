@@ -1,0 +1,139 @@
+---
+/**
+ * Header — top navigation bar
+ * Logo + nav links + theme toggle + primary CTA
+ */
+import Logo from './Logo.astro';
+import ThemeToggle from './ThemeToggle';
+import MobileNav from './MobileNav';
+import { NAV, SITE } from '~/consts';
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo-link" aria-label={`${SITE.name} home`}>
+      <Logo variant="default" size={28} />
+      <span class="wordmark">Ultralisk</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <ul>
+        {
+          NAV.map((item) => {
+            const href = item.href.replace(/\/$/, '') || '/';
+            const isActive = href === pathname || (href !== '/' && pathname.startsWith(href));
+            return (
+              <li>
+                <a href={item.href} class:list={['nav-link', { active: isActive }]}>
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <div class="actions">
+      <ThemeToggle client:load />
+      <a href={SITE.consoleUrl} class="btn btn-secondary console-link">
+        Sign in
+      </a>
+      <a href="/contact" class="btn btn-primary cta-link">Request access</a>
+    </div>
+
+    <MobileNav
+      client:load
+      links={JSON.stringify(NAV)}
+      ctaHref="/contact"
+      consoleHref={SITE.consoleUrl}
+    />
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    height: 64px;
+  }
+
+  .logo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-weight: 700;
+    letter-spacing: var(--tracking-tight);
+    font-size: var(--text-base);
+    color: var(--color-fg);
+  }
+
+  .wordmark {
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nav {
+    display: none;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .nav ul {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    list-style: none;
+  }
+
+  .nav-link {
+    display: inline-block;
+    padding: 0.5rem 0.875rem;
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-fg-muted);
+    transition: color var(--duration-fast) var(--ease-out),
+      background var(--duration-fast) var(--ease-out);
+  }
+
+  .nav-link:hover {
+    color: var(--color-fg);
+    background: var(--color-bg-subtle);
+  }
+
+  .nav-link.active {
+    color: var(--color-fg);
+  }
+
+  .actions {
+    display: none;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 880px) {
+    .nav {
+      display: flex;
+    }
+    .actions {
+      display: inline-flex;
+    }
+  }
+</style>

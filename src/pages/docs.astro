@@ -1,0 +1,301 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+import CodeBlock from '~/components/CodeBlock.astro';
+import CTA from '~/components/CTA.astro';
+import { SITE } from '~/consts';
+
+const baseUrl = 'https://api.ultralisk.io/v1';
+
+const steps = [
+  {
+    n: 1,
+    title: 'Get an API key',
+    body:
+      'Sign in to the Console and create an API key under <strong>Settings → API Keys</strong>. Treat it like a password — never commit it to git.',
+    extra: null,
+  },
+  {
+    n: 2,
+    title: 'Make your first request',
+    body: `Send a chat completion to <code>${baseUrl}/chat/completions</code>. The same OpenAI request body works unchanged.`,
+    extra: 'first-request',
+  },
+  {
+    n: 3,
+    title: 'Stream responses',
+    body:
+      'Set <code>stream: true</code> to receive tokens as they\'re generated. Server-Sent Events, OpenAI-compatible framing.',
+    extra: 'streaming',
+  },
+  {
+    n: 4,
+    title: 'Handle errors',
+    body:
+      'Standard HTTP status codes. <code>429</code> means rate-limited, <code>401</code> means invalid key, <code>402</code> means insufficient balance.',
+    extra: null,
+  },
+];
+
+const firstRequest = {
+  curl: `curl ${baseUrl}/chat/completions \\
+  -H "Authorization: Bearer $ULTRALISK_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "model": "meta-llama-3.3-70b-instruct",
+    "messages": [
+      { "role": "user", "content": "Hello!" }
+    ]
+  }'`,
+  python: `from openai import OpenAI
+
+client = OpenAI(
+    base_url="${baseUrl}",
+    api_key="ULTRALISK_API_KEY",
+)
+
+resp = client.chat.completions.create(
+    model="meta-llama-3.3-70b-instruct",
+    messages=[{"role": "user", "content": "Hello!"}],
+)
+print(resp.choices[0].message.content)`,
+  node: `import OpenAI from "openai";
+
+const client = new OpenAI({
+  baseURL: "${baseUrl}",
+  apiKey: process.env.ULTRALISK_API_KEY,
+});
+
+const resp = await client.chat.completions.create({
+  model: "meta-llama-3.3-70b-instruct",
+  messages: [{ role: "user", content: "Hello!" }],
+});
+console.log(resp.choices[0].message.content);`,
+};
+
+const streaming = {
+  python: `from openai import OpenAI
+
+client = OpenAI(
+    base_url="${baseUrl}",
+    api_key="ULTRALISK_API_KEY",
+)
+
+stream = client.chat.completions.create(
+    model="meta-llama-3.3-70b-instruct",
+    messages=[{"role": "user", "content": "Write a haiku about Rust."}],
+    stream=True,
+)
+for chunk in stream:
+    delta = chunk.choices[0].delta.content
+    if delta:
+        print(delta, end="", flush=True)`,
+  curl: `curl -N ${baseUrl}/chat/completions \\
+  -H "Authorization: Bearer $ULTRALISK_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "model": "meta-llama-3.3-70b-instruct",
+    "stream": true,
+    "messages": [
+      { "role": "user", "content": "Write a haiku about Rust." }
+    ]
+  }'`,
+};
+---
+
+<PageLayout
+  title="Quickstart"
+  description="Make your first request to the Ultralisk OpenAI-compatible API in under five minutes. cURL, Python, Node, and streaming examples."
+>
+  <section class="section">
+    <div class="container container-narrow">
+      <header class="page-header">
+        <span class="eyebrow">Quickstart</span>
+        <h1>Your first request in five minutes.</h1>
+        <p class="lede muted">
+          Ultralisk speaks the OpenAI protocol. If you've used <code>openai</code> before,
+          you're already done — change the base URL and ship.
+        </p>
+      </header>
+
+      <ol class="steps">
+        {
+          steps.map((s) => (
+            <li class="step">
+              <div class="step-marker" aria-hidden="true">
+                {s.n}
+              </div>
+              <div class="step-body">
+                <h2>{s.title}</h2>
+                <p class="muted" set:html={s.body} />
+                {s.extra === 'first-request' && (
+                  <CodeBlock
+                    tabs={[
+                      { label: 'Python', language: 'python', code: firstRequest.python },
+                      { label: 'cURL', language: 'bash', code: firstRequest.curl },
+                      { label: 'Node', language: 'javascript', code: firstRequest.node },
+                    ]}
+                    filename="first_request.py"
+                  />
+                )}
+                {s.extra === 'streaming' && (
+                  <CodeBlock
+                    tabs={[
+                      { label: 'Python', language: 'python', code: streaming.python },
+                      { label: 'cURL', language: 'bash', code: streaming.curl },
+                    ]}
+                    filename="stream.py"
+                  />
+                )}
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <aside class="next-steps">
+        <h2>Next steps</h2>
+        <div class="next-grid">
+          <a href="/models" class="next-card card">
+            <h3>Browse models</h3>
+            <p class="muted">See the full catalog with pricing and capabilities.</p>
+          </a>
+          <a href="/pricing" class="next-card card">
+            <h3>Understand pricing</h3>
+            <p class="muted">Token-based billing, batch discounts, and FAQ.</p>
+          </a>
+          <a href={SITE.consoleUrl} class="next-card card">
+            <h3>Open the Console</h3>
+            <p class="muted">Manage API keys, view usage, and inspect requests.</p>
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <CTA
+    heading="Need help integrating?"
+    body="Email us at hello@ultralisk.io — we typically respond within a few hours during Phase 1 onboarding."
+    primary={{ href: `mailto:${SITE.email}`, label: 'Email support' }}
+    secondary={{ href: '/contact', label: 'Request access' }}
+  />
+</PageLayout>
+
+<style>
+  .page-header {
+    margin-bottom: var(--space-12);
+  }
+
+  .page-header h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: var(--tracking-tighter);
+    line-height: 1.1;
+  }
+
+  .lede {
+    margin-top: var(--space-5);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+
+  .lede code {
+    background: var(--color-bg-code);
+    padding: 0.1em 0.4em;
+    border-radius: var(--radius-sm);
+    font-size: 0.92em;
+  }
+
+  .steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    counter-reset: step;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: var(--space-5);
+  }
+
+  .step-marker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gradient-brand);
+    color: white;
+    font-weight: 700;
+    font-size: var(--text-base);
+    box-shadow: 0 0 0 4px var(--color-bg), 0 4px 16px rgba(124, 58, 237, 0.25);
+  }
+
+  .step-body h2 {
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .step-body p {
+    margin-top: var(--space-3);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+  }
+
+  .step-body p code {
+    background: var(--color-bg-code);
+    padding: 0.1em 0.4em;
+    border-radius: var(--radius-sm);
+    font-size: 0.92em;
+  }
+
+  .step-body :global(.codeblock) {
+    margin-top: var(--space-5);
+  }
+
+  /* Next steps */
+  .next-steps {
+    margin-top: var(--space-16);
+    padding-top: var(--space-12);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .next-steps h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-6);
+  }
+
+  .next-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 720px) {
+    .next-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .next-card {
+    display: block;
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .next-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-border-strong);
+  }
+
+  .next-card h3 {
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+
+  .next-card p {
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+  }
+</style>

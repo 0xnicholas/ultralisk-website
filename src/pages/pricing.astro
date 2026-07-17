@@ -1,0 +1,56 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+import PricingTable from '~/components/PricingTable.astro';
+import FAQ from '~/components/FAQ.astro';
+import CTA from '~/components/CTA.astro';
+---
+
+<PageLayout
+  title="Pricing"
+  description="Transparent per-token pricing for open-source LLMs. No seats, no commitments, no hidden fees. Pay only for tokens consumed."
+>
+  <section class="section">
+    <div class="container">
+      <header class="page-header">
+        <span class="eyebrow">Pricing</span>
+        <h1>Pay for tokens.<br />Nothing else.</h1>
+        <p class="lede muted">
+          Every model is priced per million tokens on input and output. The
+          rates below are the rates you'll see on your invoice — no tiers,
+          throttles, or surprise line items.
+        </p>
+      </header>
+
+      <PricingTable />
+
+      <FAQ />
+    </div>
+  </section>
+
+  <CTA
+    heading="Ready to put Ultralisk on your stack?"
+    body="Sign up to receive an API key, or contact us about reserved capacity and committed-volume pricing."
+    primary={{ href: '/contact', label: 'Request access' }}
+    secondary={{ href: '/docs', label: 'Read the quickstart' }}
+  />
+</PageLayout>
+
+<style>
+  .page-header {
+    max-width: 48rem;
+    margin-bottom: var(--space-10);
+  }
+
+  .page-header h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+    letter-spacing: var(--tracking-tighter);
+    line-height: 1.05;
+  }
+
+  .lede {
+    margin-top: var(--space-5);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+</style>

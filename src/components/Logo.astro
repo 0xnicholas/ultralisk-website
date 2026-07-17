@@ -1,0 +1,42 @@
+---
+/**
+ * Logo — wraps one of the brand SVGs.
+ * Variant selects which logo file to use (auto picks dark/light variant).
+ */
+export interface Props {
+  /** Visual variant: default uses brand gradient, mono is currentColor */
+  variant?: 'default' | 'mono' | 'on-dark' | 'on-light';
+  /** Side length in px */
+  size?: number;
+  /** Decorative only (skip alt for screen readers) */
+  decorative?: boolean;
+}
+
+const { variant = 'default', size = 32, decorative = false } = Astro.props;
+
+// Resolve which SVG file to use
+const src =
+  variant === 'mono'
+    ? '/brand/logo-mono.svg'
+    : variant === 'on-dark'
+      ? '/brand/logo-on-dark.svg'
+      : variant === 'on-light'
+        ? '/brand/logo-on-light.svg'
+        : '/brand/logo.svg';
+---
+
+<img
+  src={src}
+  alt={decorative ? '' : 'Ultralisk'}
+  width={size}
+  height={size}
+  loading="eager"
+  decoding="async"
+/>
+
+<style>
+  img {
+    display: inline-block;
+    flex-shrink: 0;
+  }
+</style>

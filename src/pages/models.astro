@@ -1,0 +1,96 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+import ModelFilter from '~/components/ModelFilter';
+import { AVAILABLE_MODELS, type Modality } from '~/data/models';
+
+const allModalities: Modality[] = ['chat', 'code', 'embeddings', 'vision'];
+const usedModalities = Array.from(
+  new Set(AVAILABLE_MODELS.flatMap((m) => m.modalities))
+);
+const filters = [
+  { key: 'all', label: 'All' },
+  ...allModalities
+    .filter((mod) => usedModalities.includes(mod))
+    .map((mod) => ({ key: mod, label: mod.charAt(0).toUpperCase() + mod.slice(1) })),
+];
+
+const filtersJson = JSON.stringify(filters);
+const modelsJson = JSON.stringify(AVAILABLE_MODELS);
+---
+
+<PageLayout
+  title="Models"
+  description="Browse the Ultralisk model catalog — open-source LLMs with transparent per-token pricing and OpenAI-compatible endpoints."
+>
+  <section class="section">
+    <div class="container">
+      <header class="page-header">
+        <span class="eyebrow">Catalog</span>
+        <h1>Models</h1>
+        <p class="lede muted">
+          Open-source LLMs served on Ultralisk infrastructure. Every model ships
+          with token-priced billing, OpenAI-compatible APIs, and full GPU
+          transparency in the Console.
+        </p>
+      </header>
+
+      <ModelFilter client:load modelsJson={modelsJson} filtersJson={filtersJson} />
+
+      <aside class="roadmap-note">
+        <div>
+          <h3>More models coming in Phase 2</h3>
+          <p class="muted">
+            We're expanding to 10 models across chat, code, embeddings, and
+            vision in the next phase — including Mistral, Qwen, and DeepSeek
+            families. Request access to influence which models we ship next.
+          </p>
+        </div>
+        <a href="/contact" class="btn btn-secondary">Request a model</a>
+      </aside>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .page-header {
+    max-width: 48rem;
+    margin-bottom: var(--space-10);
+  }
+
+  .page-header h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+    letter-spacing: var(--tracking-tighter);
+    line-height: 1.05;
+  }
+
+  .lede {
+    margin-top: var(--space-5);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+
+  .roadmap-note {
+    margin-top: var(--space-12);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-bg-elevated);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  .roadmap-note h3 {
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+
+  .roadmap-note p {
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+    max-width: 56ch;
+  }
+</style>

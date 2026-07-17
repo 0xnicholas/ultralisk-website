@@ -1,0 +1,121 @@
+---
+/**
+ * BaseLayout — HTML shell for every page.
+ * Owns: <head> meta, theme bootstrap, global styles, fonts.
+ */
+import '~/styles/global.css';
+import { SITE } from '~/consts';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  /** Pathname for canonical (no leading slash normalized) */
+  pathname?: string;
+  /** og:image override */
+  ogImage?: string;
+  /** Set true to noindex (e.g. 404, thank-you) */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = SITE.description,
+  pathname = Astro.url.pathname,
+  ogImage = SITE.ogImage,
+  noindex = false,
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${SITE.name}` : `${SITE.name} — ${SITE.tagline}`;
+const canonical = new URL(pathname, SITE.url).toString();
+const ogUrl = new URL(ogImage, SITE.url).toString();
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    {/* Theme bootstrap: runs before paint to avoid FOUC */}
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('ultralisk-theme');
+          var theme = stored || 'dark';
+          if (theme === 'dark' || theme === 'light') {
+            document.documentElement.setAttribute('data-theme', theme);
+          }
+        } catch (e) {
+          // localStorage blocked — default to dark
+        }
+      })();
+    </script>
+
+    {/* Icons */}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <meta name="theme-color" content="#0A0A0A" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)" />
+
+    {/* Open Graph */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:locale" content={SITE.locale} />
+
+    {/* Twitter */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+
+    {/* Feeds */}
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${SITE.name} blog`}
+      href="/rss.xml"
+    />
+
+    {/* Fonts */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    />
+
+    {/* Sitemap discovery */}
+    <link rel="sitemap" href="/sitemap-index.xml" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  /* Page-load fade — applies to <body> first paint */
+  body {
+    animation: page-fade-in 320ms var(--ease-out);
+  }
+
+  @keyframes page-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

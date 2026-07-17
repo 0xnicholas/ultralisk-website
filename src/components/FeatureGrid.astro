@@ -1,0 +1,133 @@
+---
+/**
+ * FeatureGrid — 3-up grid of value propositions on the Home page.
+ */
+export interface Feature {
+  icon: 'plug' | 'gauge' | 'eye' | 'shield' | 'cpu' | 'zap';
+  title: string;
+  body: string;
+}
+
+export interface Props {
+  features: Feature[];
+  eyebrow?: string;
+  heading?: string;
+  subheading?: string;
+}
+
+const { features, eyebrow, heading, subheading } = Astro.props;
+---
+
+<section class="section">
+  <div class="container">
+    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    {heading && <h2 class="heading">{heading}</h2>}
+    {subheading && <p class="subheading muted">{subheading}</p>}
+
+    <div class="grid">
+      {
+        features.map((f) => (
+          <article class="feature card">
+            <div class="icon" aria-hidden="true">
+              {f.icon === 'plug' && (
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 2v6M15 2v6M5 8h14v3a7 7 0 0 1-14 0z" />
+                  <path d="M12 18v4" />
+                </svg>
+              )}
+              {f.icon === 'gauge' && (
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 14l4-4" />
+                  <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+                </svg>
+              )}
+              {f.icon === 'eye' && (
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              )}
+              {f.icon === 'shield' && (
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+              )}
+              {f.icon === 'cpu' && (
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="4" width="16" height="16" rx="2" />
+                  <rect x="9" y="9" width="6" height="6" />
+                  <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3" />
+                </svg>
+              )}
+              {f.icon === 'zap' && (
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+              )}
+            </div>
+            <h3>{f.title}</h3>
+            <p class="muted">{f.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .heading {
+    font-size: clamp(1.875rem, 4vw, 2.75rem);
+    margin-top: var(--space-3);
+    max-width: 22ch;
+  }
+
+  .subheading {
+    margin-top: var(--space-4);
+    max-width: 60ch;
+    font-size: var(--text-lg);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    margin-top: var(--space-12);
+  }
+
+  @media (max-width: 880px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .feature {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6);
+  }
+
+  .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--gradient-brand);
+    color: white;
+    margin-bottom: var(--space-2);
+    box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.3), 0 4px 12px rgba(124, 58, 237, 0.25);
+  }
+
+  .feature h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .feature p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+  }
+</style>

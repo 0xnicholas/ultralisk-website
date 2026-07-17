@@ -1,0 +1,152 @@
+/* ============================================================================
+   Component styles for Preact islands (cannot scope styles inside .tsx)
+   ============================================================================ */
+
+/* --- ThemeToggle --- */
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  color: var(--color-fg-muted);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.theme-toggle:hover {
+  color: var(--color-fg);
+  border-color: var(--color-border-strong);
+}
+
+.theme-toggle .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- MobileNav --- */
+
+.mobile-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  color: var(--color-fg);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+}
+
+@media (min-width: 880px) {
+  .mobile-trigger,
+  .mobile-panel {
+    display: none;
+  }
+}
+
+.hamburger {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 14px;
+}
+
+.hamburger span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform var(--duration-base) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out), top var(--duration-base) var(--ease-out);
+}
+
+.hamburger span:nth-child(1) {
+  top: 0;
+}
+.hamburger span:nth-child(2) {
+  top: 6px;
+}
+.hamburger span:nth-child(3) {
+  top: 12px;
+}
+
+.hamburger.open span:nth-child(1) {
+  top: 6px;
+  transform: rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.open span:nth-child(3) {
+  top: 6px;
+  transform: rotate(-45deg);
+}
+
+.mobile-panel {
+  position: fixed;
+  inset: 64px 0 0 0;
+  background: var(--color-bg);
+  z-index: var(--z-overlay);
+  padding: var(--space-6);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+  border-top: 1px solid var(--color-border);
+}
+
+.mobile-panel.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.mobile-panel nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.mobile-panel ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.mobile-panel a {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--color-fg);
+  border-radius: var(--radius-md);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.mobile-panel a:hover {
+  background: var(--color-bg-subtle);
+}
+
+.mobile-panel .actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.mobile-panel .actions .btn {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  font-size: var(--text-base);
+}

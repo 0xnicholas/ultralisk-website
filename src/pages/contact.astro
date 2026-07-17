@@ -1,0 +1,184 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+import ContactForm from '~/components/ContactForm';
+import { SITE } from '~/consts';
+---
+
+<PageLayout
+  title="Request access"
+  description="Ultralisk is in invitation-only Phase 1. Tell us what you're building and we'll send you an API key."
+  noindex
+>
+  <section class="section">
+    <div class="container container-narrow">
+      <header class="page-header">
+        <span class="eyebrow">Phase 1 — invitation-only</span>
+        <h1>Request access.</h1>
+        <p class="lede muted">
+          We're onboarding design partners one at a time. Tell us about your
+          workload and we'll send you an API key — usually within a day.
+        </p>
+      </header>
+
+      <div class="layout">
+        <div class="form-wrap">
+          <ContactForm client:load to={SITE.email} />
+        </div>
+
+        <aside class="aside">
+          <h3>What happens next</h3>
+          <ol class="timeline">
+            <li>
+              <strong>Review.</strong> We read every request within one business
+              day and follow up with any clarifying questions.
+            </li>
+            <li>
+              <strong>API key.</strong> Approved requests get a key with a
+              starting credit balance so you can ship without a billing setup.
+            </li>
+            <li>
+              <strong>Office hours.</strong> Direct Slack access to the
+              engineering team during the first two weeks for integration help.
+            </li>
+          </ol>
+
+          <div class="callout">
+            <h4>Need reserved or dedicated capacity?</h4>
+            <p class="muted">
+              Reserved endpoints launch in Phase 2; dedicated in Phase 3.
+              Mention this in your request and we'll prioritize accordingly.
+            </p>
+            <a href="/pricing" class="link">See pricing →</a>
+          </div>
+
+          <div class="callout">
+            <h4>Just curious?</h4>
+            <p class="muted">
+              The <a href="/docs" class="link">quickstart</a> and{' '}
+              <a href="/models" class="link">model catalog</a> walk through
+              everything. No signup required to read.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .page-header {
+    margin-bottom: var(--space-10);
+  }
+
+  .page-header h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+    letter-spacing: var(--tracking-tighter);
+    line-height: 1.05;
+  }
+
+  .lede {
+    margin-top: var(--space-5);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  @media (max-width: 880px) {
+    .layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+
+  .form-wrap {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+  }
+
+  @media (max-width: 600px) {
+    .form-wrap {
+      padding: var(--space-6);
+    }
+  }
+
+  .aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .aside h3 {
+    font-size: var(--text-base);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .timeline {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: 0;
+  }
+
+  .timeline li {
+    position: relative;
+    padding-left: var(--space-6);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--color-fg-muted);
+  }
+
+  .timeline li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gradient-brand);
+  }
+
+  .timeline li strong {
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+
+  .callout {
+    padding: var(--space-5);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+  }
+
+  .callout h4 {
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .callout p {
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+
+  .link {
+    display: inline-block;
+    margin-top: var(--space-2);
+    color: var(--color-accent);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

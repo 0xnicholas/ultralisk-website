@@ -1,0 +1,359 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+import FeatureGrid from '~/components/FeatureGrid.astro';
+import CodeBlock from '~/components/CodeBlock.astro';
+import CTA from '~/components/CTA.astro';
+import ModelCard from '~/components/ModelCard.astro';
+import { AVAILABLE_MODELS } from '~/data/models';
+import { SITE } from '~/consts';
+
+const features = [
+  {
+    icon: 'plug' as const,
+    title: 'OpenAI-compatible',
+    body: 'Drop-in replacement. Same /v1/chat/completions and /v1/embeddings endpoints, same request and response schemas. Switch by changing the base URL.',
+  },
+  {
+    icon: 'gauge' as const,
+    title: 'Token-priced',
+    body: 'Pay only for what you use. Per-million-token pricing on input and output. No seats, no commitments, no surprise egress fees.',
+  },
+  {
+    icon: 'eye' as const,
+    title: 'GPU-aware',
+    body: 'See real utilization, queue depth, and per-model cost attribution in the Console. The same transparency we use to run our own fleet.',
+  },
+];
+
+const apiExamples = {
+  curl: `curl https://api.ultralisk.io/v1/chat/completions \\
+  -H "Authorization: Bearer $ULTRALISK_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "model": "meta-llama-3.3-70b-instruct",
+    "messages": [
+      { "role": "user", "content": "Explain KV cache in 3 sentences." }
+    ]
+  }'`,
+  python: `from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.ultralisk.io/v1",
+    api_key="ULTRALISK_API_KEY",
+)
+
+resp = client.chat.completions.create(
+    model="meta-llama-3.3-70b-instruct",
+    messages=[{"role": "user", "content": "Explain KV cache in 3 sentences."}],
+)
+print(resp.choices[0].message.content)`,
+  streaming: `from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.ultralisk.io/v1",
+    api_key="ULTRALISK_API_KEY",
+)
+
+stream = client.chat.completions.create(
+    model="meta-llama-3.3-70b-instruct",
+    messages=[{"role": "user", "content": "Write a haiku about Rust."}],
+    stream=True,
+)
+for chunk in stream:
+    print(chunk.choices[0].delta.content or "", end="")`,
+};
+---
+
+<PageLayout>
+  {/* Hero */}
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <span class="eyebrow">
+        <span class="badge">Phase 1 — invitation-only</span>
+      </span>
+      <h1 class="hero-title">
+        Open-source LLMs.<br />
+        <span class="gradient-text">OpenAI-compatible API.</span><br />
+        Pay per token.
+      </h1>
+      <p class="hero-sub">
+        Ultralisk is an AI inference cloud for open-source large language models.
+        Run Llama 3.x with the same SDK you already use, at transparent per-token
+        prices — backed by a Rust gateway you can see through.
+      </p>
+      <div class="hero-actions">
+        <a href={SITE.consoleUrl} class="btn btn-lg btn-gradient">
+          Open Console
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8h10M9 4l4 4-4 4" />
+          </svg>
+        </a>
+        <a href="/docs" class="btn btn-lg btn-secondary">Read the quickstart</a>
+      </div>
+      <div class="hero-meta">
+        <span><span class="dot ok"></span> All systems operational</span>
+        <span class="sep">·</span>
+        <span>2 models in catalog</span>
+        <span class="sep">·</span>
+        <span>128K context</span>
+      </div>
+    </div>
+  </section>
+
+  {/* Feature grid */}
+  <FeatureGrid
+    eyebrow="Why Ultralisk"
+    heading="Inference that respects your stack and your budget."
+    subheading="Built by infrastructure engineers who got tired of black-box inference clouds. Three principles guide every decision."
+    features={features}
+  />
+
+  {/* Model preview strip */}
+  <section class="section-tight">
+    <div class="container">
+      <div class="strip-header">
+        <div>
+          <span class="eyebrow">Available now</span>
+          <h2>Phase 1 catalog</h2>
+        </div>
+        <a href="/models" class="strip-link">
+          Browse all models
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8h10M9 4l4 4-4 4" />
+          </svg>
+        </a>
+      </div>
+      <div class="model-strip">
+        {AVAILABLE_MODELS.map((m) => <ModelCard model={m} compact />)}
+      </div>
+    </div>
+  </section>
+
+  {/* Code example */}
+  <section class="section">
+    <div class="container">
+      <div class="code-section">
+        <div class="code-copy">
+          <span class="eyebrow">Drop-in replacement</span>
+          <h2>The same SDK.<br />One base URL away.</h2>
+          <p class="muted">
+            Point any OpenAI client at <code>api.ultralisk.io/v1</code> and ship.
+            Streaming, function calling, JSON mode — all preserved.
+          </p>
+          <ul class="bullets muted">
+            <li>OpenAI Python / Node SDK — works unchanged</li>
+            <li>Streaming via SSE</li>
+            <li>Per-request cost preview</li>
+          </ul>
+          <a href="/docs" class="strip-link">
+            Full quickstart
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 8h10M9 4l4 4-4 4" />
+            </svg>
+          </a>
+        </div>
+        <div class="code-area">
+          <CodeBlock
+            tabs={[
+              { label: 'cURL', language: 'bash', code: apiExamples.curl },
+              { label: 'Python', language: 'python', code: apiExamples.python },
+              { label: 'Streaming', language: 'python', code: apiExamples.streaming },
+            ]}
+            filename="chat.py"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Final CTA */}
+  <CTA
+    heading="Ready to ship with Ultralisk?"
+    body="We're onboarding design partners during Phase 1. Tell us what you're building and we'll send you an API key."
+    primary={{ href: '/contact', label: 'Request access' }}
+    secondary={{ href: '/pricing', label: 'See pricing' }}
+  />
+</PageLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    position: relative;
+    padding-block: clamp(4rem, 12vw, 8rem);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero-glow {
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-glow);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    text-align: center;
+    max-width: 56rem;
+    margin-inline: auto;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-fg);
+  }
+
+  .hero-title {
+    margin-top: var(--space-5);
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: var(--tracking-tighter);
+    font-weight: 700;
+  }
+
+  .hero-sub {
+    margin-top: var(--space-6);
+    font-size: var(--text-lg);
+    color: var(--color-fg-muted);
+    max-width: 56ch;
+    margin-inline: auto;
+    line-height: var(--leading-relaxed);
+  }
+
+  .hero-actions {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: center;
+    margin-top: var(--space-8);
+  }
+
+  .hero-meta {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+    font-size: var(--text-sm);
+    color: var(--color-fg-subtle);
+  }
+
+  .hero-meta .sep {
+    color: var(--color-border-strong);
+  }
+
+  .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+  }
+
+  .dot.ok {
+    background: #22c55e;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+  }
+
+  /* Model strip */
+  .strip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+
+  .strip-header h2 {
+    font-size: var(--text-3xl);
+    margin-top: var(--space-2);
+  }
+
+  .strip-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-accent);
+  }
+
+  .strip-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .model-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-4);
+  }
+
+  /* Code section */
+  .code-section {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  @media (max-width: 880px) {
+    .code-section {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+
+  .code-copy h2 {
+    margin-top: var(--space-3);
+    font-size: clamp(1.875rem, 4vw, 2.5rem);
+    line-height: 1.1;
+  }
+
+  .code-copy p {
+    margin-top: var(--space-4);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+
+  .code-copy code {
+    background: var(--color-bg-code);
+    padding: 0.1em 0.4em;
+    border-radius: var(--radius-sm);
+    font-size: 0.9em;
+  }
+
+  .bullets {
+    list-style: none;
+    margin-top: var(--space-5);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+  }
+
+  .bullets li::before {
+    content: '→';
+    color: var(--color-accent);
+    margin-right: 0.5rem;
+    font-weight: 600;
+  }
+
+  .code-copy .strip-link {
+    margin-top: var(--space-6);
+    display: inline-flex;
+  }
+</style>

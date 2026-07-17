@@ -1,0 +1,207 @@
+/* ============================================================================
+   Ultralisk Design Tokens
+   ============================================================================
+   Mirrors brand assets in /Ultralisk/console/brand/
+   Dark theme is default (matches Console). Light theme via [data-theme="light"].
+   ============================================================================ */
+
+:root {
+  /* --- Brand: violet -> cyan diagonal gradient --- */
+  --color-violet-50: #f5f3ff;
+  --color-violet-100: #ede9fe;
+  --color-violet-200: #ddd6fe;
+  --color-violet-300: #c4b5fd;
+  --color-violet-400: #a78bfa;
+  --color-violet-500: #7c3aed;
+  --color-violet-600: #6d28d9;
+  --color-violet-700: #5b21b6;
+  --color-violet-800: #4c1d95;
+  --color-violet-900: #2e1065;
+
+  --color-cyan-50: #ecfeff;
+  --color-cyan-100: #cffafe;
+  --color-cyan-200: #a5f3fc;
+  --color-cyan-300: #67e8f9;
+  --color-cyan-400: #22d3ee;
+  --color-cyan-500: #06b6d4;
+  --color-cyan-600: #0891b2;
+  --color-cyan-700: #0e7490;
+  --color-cyan-800: #155e75;
+  --color-cyan-900: #164e63;
+
+  /* --- Ink (neutrals) --- */
+  --color-ink-50: #fafafa;
+  --color-ink-100: #f4f4f5;
+  --color-ink-200: #e4e4e7;
+  --color-ink-300: #d4d4d8;
+  --color-ink-400: #a1a1aa;
+  --color-ink-500: #71717a;
+  --color-ink-600: #52525b;
+  --color-ink-700: #3f3f46;
+  --color-ink-800: #27272a;
+  --color-ink-900: #18181b;
+  --color-ink-950: #09090b;
+  --color-ink-1000: #0a0a0a; /* alias matching console/brand token */
+
+  /* --- Semantic: dark theme defaults --- */
+  --color-bg: var(--color-ink-1000);
+  --color-bg-elevated: var(--color-ink-900);
+  --color-bg-subtle: var(--color-ink-800);
+  --color-bg-code: var(--color-ink-950);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-fg: var(--color-ink-50);
+  --color-fg-muted: var(--color-ink-400);
+  --color-fg-subtle: var(--color-ink-500);
+  --color-accent: var(--color-violet-400);
+  --color-accent-2: var(--color-cyan-400);
+
+  /* --- Brand gradient (matches logo) --- */
+  --gradient-brand: linear-gradient(135deg, var(--color-violet-500) 0%, var(--color-cyan-400) 100%);
+  --gradient-brand-soft: linear-gradient(
+    135deg,
+    var(--color-violet-500) 0%,
+    var(--color-violet-400) 35%,
+    var(--color-cyan-300) 65%,
+    var(--color-cyan-400) 100%
+  );
+  --gradient-text: linear-gradient(
+    100deg,
+    var(--color-violet-300) 0%,
+    var(--color-cyan-300) 100%
+  );
+  --gradient-glow: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    rgba(124, 58, 237, 0.35),
+    transparent 70%
+  );
+
+  /* --- Typography --- */
+  --font-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  --tracking-tighter: -0.04em;
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+
+  /* --- Spacing scale (4px base) --- */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* --- Layout --- */
+  --container-max: 1200px;
+  --container-narrow: 760px;
+  --container-wide: 1400px;
+  --gutter: clamp(1rem, 4vw, 2rem);
+
+  /* --- Radius --- */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* --- Shadows --- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.35);
+  --shadow-glow: 0 0 0 1px rgba(124, 58, 237, 0.4), 0 8px 32px rgba(124, 58, 237, 0.25);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 8px 24px rgba(0, 0, 0, 0.3);
+
+  /* --- Motion --- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 400ms;
+
+  /* --- Z-index --- */
+  --z-base: 1;
+  --z-dropdown: 10;
+  --z-header: 50;
+  --z-overlay: 100;
+  --z-modal: 200;
+}
+
+/* --- Light theme overrides --- */
+[data-theme='light'] {
+  --color-bg: var(--color-ink-50);
+  --color-bg-elevated: #ffffff;
+  --color-bg-subtle: var(--color-ink-100);
+  --color-bg-code: #f4f4f5;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.16);
+  --color-fg: var(--color-ink-900);
+  --color-fg-muted: var(--color-ink-600);
+  --color-fg-subtle: var(--color-ink-500);
+  --color-accent: var(--color-violet-600);
+  --color-accent-2: var(--color-cyan-700);
+
+  --gradient-glow: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    rgba(124, 58, 237, 0.15),
+    transparent 70%
+  );
+
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-glow: 0 0 0 1px rgba(124, 58, 237, 0.2), 0 8px 32px rgba(124, 58, 237, 0.15);
+}
+
+/* Auto light theme for users who prefer it (only if no manual choice) */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --color-bg: var(--color-ink-50);
+    --color-bg-elevated: #ffffff;
+    --color-bg-subtle: var(--color-ink-100);
+    --color-bg-code: #f4f4f5;
+    --color-border: rgba(0, 0, 0, 0.08);
+    --color-border-strong: rgba(0, 0, 0, 0.16);
+    --color-fg: var(--color-ink-900);
+    --color-fg-muted: var(--color-ink-600);
+    --color-fg-subtle: var(--color-ink-500);
+    --color-accent: var(--color-violet-600);
+    --color-accent-2: var(--color-cyan-700);
+
+    --gradient-glow: radial-gradient(
+      ellipse 80% 50% at 50% -20%,
+      rgba(124, 58, 237, 0.15),
+      transparent 70%
+    );
+
+    --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 8px 24px rgba(0, 0, 0, 0.06);
+    --shadow-glow: 0 0 0 1px rgba(124, 58, 237, 0.2), 0 8px 32px rgba(124, 58, 237, 0.15);
+  }
+}
