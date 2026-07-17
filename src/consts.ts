@@ -18,6 +18,7 @@ export const NAV = [
   { href: '/pricing', label: 'Pricing' },
   { href: '/platform', label: 'Platform' },
   { href: '/zealot', label: 'Engine' },
+  { href: '/changelog', label: 'Changelog' },
   { href: '/docs', label: 'Quickstart' },
   { href: '/contact', label: 'Request access' },
 ] as const;

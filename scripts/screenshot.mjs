@@ -33,6 +33,8 @@ const PAGES = [
   { slug: 'docs', path: '/docs' },
   { slug: 'platform', path: '/platform' },
   { slug: 'zealot', path: '/zealot' },
+  { slug: 'changelog', path: '/changelog' },
+  { slug: 'changelog-entry', path: '/changelog/zealot-alpha' },
   { slug: 'contact', path: '/contact' },
   { slug: 'model-70b', path: '/docs/models/meta-llama-3.3-70b-instruct' },
   { slug: 'model-8b', path: '/docs/models/meta-llama-3.1-8b-instruct' },

@@ -1,0 +1,281 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+import { SITE } from '~/consts';
+
+const entries = (await getCollection('changelog')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+// Group by year-month for the timeline view
+const groups = new Map<string, typeof entries>();
+for (const e of entries) {
+  const key = `${e.data.date.getFullYear()}-${String(e.data.date.getMonth() + 1).padStart(2, '0')}`;
+  if (!groups.has(key)) groups.set(key, []);
+  groups.get(key)!.push(e);
+}
+
+const monthLabel = (key: string) => {
+  const [y, m] = key.split('-').map(Number);
+  return new Date(y, m - 1, 1).toLocaleDateString(SITE.locale, {
+    year: 'numeric',
+    month: 'long',
+  });
+};
+
+const tagLabel = (t: string) =>
+  ({ added: 'Added', improved: 'Improved', fixed: 'Fixed', deprecated: 'Deprecated', security: 'Security' })[t] ?? t;
+---
+
+<PageLayout
+  title="Changelog"
+  description="Release notes for Ultralisk: model updates, engine milestones, console features, and Phase 2 / Phase 3 roadmap progress."
+>
+  <section class="section">
+    <div class="container container-narrow">
+      <header class="page-header">
+        <span class="eyebrow">Changelog</span>
+        <h1>What we shipped.</h1>
+        <p class="lede muted">
+          Release notes for Ultralisk — model updates, engine milestones,
+          console features, and Phase 2 / Phase 3 progress. Subscribe via
+          <a href="/rss.xml">RSS</a>.
+        </p>
+      </header>
+
+      <ol class="timeline-list">
+        {
+          [...groups.entries()].map(([key, group]) => (
+            <li class="month-group">
+              <h2 class="month-label">{monthLabel(key)}</h2>
+              <ol class="entries">
+                {group.map((e) => (
+                  <li class="entry">
+                    <article>
+                      <header>
+                        <time datetime={e.data.date.toISOString()}>
+                          {e.data.date.toLocaleDateString(SITE.locale, { month: 'short', day: 'numeric' })}
+                        </time>
+                        {e.data.phase && (
+                          <span class="phase-pill">Phase {e.data.phase}</span>
+                        )}
+                      </header>
+                      <h3>
+                        <a href={`/changelog/${e.id}`}>{e.data.title}</a>
+                      </h3>
+                      <p class="summary muted">{e.data.summary}</p>
+                      <footer>
+                        <ul class="tags" aria-label="Tags">
+                          {e.data.tags.map((t) => (
+                            <li class={`tag tag-${t}`}>{tagLabel(t)}</li>
+                          ))}
+                        </ul>
+                        <a class="read-more" href={`/changelog/${e.id}`}>
+                          Read more
+                          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 8h10M9 4l4 4-4 4" />
+                          </svg>
+                        </a>
+                      </footer>
+                    </article>
+                  </li>
+                ))}
+              </ol>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .page-header {
+    margin-bottom: var(--space-12);
+  }
+
+  .page-header h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+    letter-spacing: var(--tracking-tighter);
+    line-height: 1.05;
+  }
+
+  .lede {
+    margin-top: var(--space-5);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+
+  .lede a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .timeline-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .month-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .month-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-fg-subtle);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .entries {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .entry {
+    position: relative;
+    padding: var(--space-5) var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-bg-elevated);
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .entry:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  .entry header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+  }
+
+  .entry time {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-fg-subtle);
+  }
+
+  .phase-pill {
+    padding: 0.1rem 0.5rem;
+    border-radius: var(--radius-full);
+    font-size: 0.65rem;
+    font-weight: 600;
+    background: var(--color-bg-subtle);
+    color: var(--color-fg-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .entry h3 {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+  }
+
+  .entry h3 a {
+    color: var(--color-fg);
+    background-image: linear-gradient(var(--color-fg), var(--color-fg));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0 1px;
+    transition: background-size var(--duration-fast) var(--ease-out);
+  }
+
+  .entry h3 a:hover {
+    background-size: 100% 1px;
+  }
+
+  .summary {
+    margin-top: var(--space-2);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+  }
+
+  .entry footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-4);
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .tags {
+    list-style: none;
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .tag-added {
+    background: rgba(34, 197, 94, 0.12);
+    color: #22c55e;
+  }
+
+  .tag-improved {
+    background: rgba(34, 211, 238, 0.12);
+    color: var(--color-cyan-400);
+  }
+
+  [data-theme='light'] .tag-improved {
+    color: var(--color-cyan-700);
+  }
+
+  .tag-fixed {
+    background: rgba(124, 58, 237, 0.12);
+    color: var(--color-violet-400);
+  }
+
+  [data-theme='light'] .tag-fixed {
+    color: var(--color-violet-700);
+  }
+
+  .tag-deprecated {
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+  }
+
+  .tag-security {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+  }
+
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-accent);
+  }
+
+  .read-more:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

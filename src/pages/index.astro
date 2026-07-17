@@ -5,7 +5,12 @@ import CodeBlock from '~/components/CodeBlock.astro';
 import CTA from '~/components/CTA.astro';
 import ModelCard from '~/components/ModelCard.astro';
 import { AVAILABLE_MODELS } from '~/data/models';
+import { getCollection } from 'astro:content';
 import { SITE } from '~/consts';
+
+const latestUpdates = (await getCollection('changelog'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
 
 const features = [
   {
@@ -300,6 +305,45 @@ for chunk in stream:
             filename="chat.py"
           />
         </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Latest updates */}
+  <section class="section updates-section">
+    <div class="container">
+      <header class="updates-header">
+        <div>
+          <span class="eyebrow">Latest updates</span>
+          <h2>What we shipped recently.</h2>
+        </div>
+        <a href="/changelog" class="updates-link">
+          All changelog entries
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8h10M9 4l4 4-4 4" />
+          </svg>
+        </a>
+      </header>
+      <div class="updates-grid">
+        {
+          latestUpdates.map((e) => (
+            <a href={`/changelog/${e.id}`} class="update-card card">
+              <header>
+                <time datetime={e.data.date.toISOString()} class="muted">
+                  {e.data.date.toLocaleDateString(SITE.locale, { year: 'numeric', month: 'short', day: 'numeric' })}
+                </time>
+                {e.data.phase && <span class="phase-pill">Phase {e.data.phase}</span>}
+              </header>
+              <h3>{e.data.title}</h3>
+              <p class="muted">{e.data.summary}</p>
+              <ul class="tags" aria-label="Tags">
+                {e.data.tags.map((t) => (
+                  <li class={`tag tag-${t}`}>{t}</li>
+                ))}
+              </ul>
+            </a>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -807,5 +851,155 @@ for chunk in stream:
 
   .platform-mockup .bb-seg {
     height: 100%;
+  }
+
+  /* Updates section */
+  .updates-section {
+    background: var(--color-bg-elevated);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .updates-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-8);
+  }
+
+  .updates-header h2 {
+    margin-top: var(--space-2);
+    font-size: clamp(1.875rem, 4vw, 2.5rem);
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.1;
+  }
+
+  .updates-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-accent);
+  }
+
+  .updates-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .updates-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 880px) {
+    .updates-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .update-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    transition: transform var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .update-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-border-strong);
+  }
+
+  .update-card header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .update-card time {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+
+  .update-card .phase-pill {
+    padding: 0.1rem 0.5rem;
+    border-radius: var(--radius-full);
+    font-size: 0.65rem;
+    font-weight: 600;
+    background: var(--color-bg-subtle);
+    color: var(--color-fg-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .update-card h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+    color: var(--color-fg);
+  }
+
+  .update-card p {
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+
+  .update-card .tags {
+    list-style: none;
+    display: flex;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .update-card .tag {
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .update-card .tag-added {
+    background: rgba(34, 197, 94, 0.12);
+    color: #22c55e;
+  }
+
+  .update-card .tag-improved {
+    background: rgba(34, 211, 238, 0.12);
+    color: var(--color-cyan-400);
+  }
+
+  [data-theme='light'] .update-card .tag-improved {
+    color: var(--color-cyan-700);
+  }
+
+  .update-card .tag-fixed {
+    background: rgba(124, 58, 237, 0.12);
+    color: var(--color-violet-400);
+  }
+
+  [data-theme='light'] .update-card .tag-fixed {
+    color: var(--color-violet-700);
+  }
+
+  .update-card .tag-deprecated {
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+  }
+
+  .update-card .tag-security {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
   }
 </style>
