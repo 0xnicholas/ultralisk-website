@@ -326,6 +326,11 @@ const codeTabs = model.samples.map((s) => ({
     align-items: start;
   }
 
+  /* Let grid items shrink so wide tables/code don't expand the page */
+  .layout > * {
+    min-width: 0;
+  }
+
   @media (max-width: 1024px) {
     .layout {
       grid-template-columns: 1fr;

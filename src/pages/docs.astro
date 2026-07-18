@@ -219,6 +219,11 @@ for chunk in stream:
     gap: var(--space-5);
   }
 
+  /* Let grid items shrink so scrollable code blocks don't expand the page */
+  .step > * {
+    min-width: 0;
+  }
+
   .step-marker {
     display: inline-flex;
     align-items: center;

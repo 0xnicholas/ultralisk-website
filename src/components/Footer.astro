@@ -10,11 +10,14 @@ const year = new Date().getFullYear();
 const productLinks = [
   { href: '/models', label: 'Models' },
   { href: '/pricing', label: 'Pricing' },
-  { href: '/docs', label: 'Quickstart' },
+  { href: '/zealot', label: 'Engine' },
+  { href: '/docs', label: 'Docs' },
+  { href: '/changelog', label: 'Changelog' },
 ];
 
 const companyLinks = [
   { href: '/contact', label: 'Request access' },
+  { href: '/status', label: 'Status' },
   { href: SITE.consoleUrl, label: 'Sign in to Console' },
   { href: SITE.github, label: 'GitHub', external: true },
 ];
@@ -83,10 +86,10 @@ const legalLinks = [
 
     <div class="bottom">
       <p>© {year} Ultralisk. All rights reserved.</p>
-      <p class="status">
+      <a href="/status" class="status">
         <span class="dot" aria-hidden="true"></span>
         All systems operational
-      </p>
+      </a>
     </div>
   </div>
 </footer>
@@ -198,6 +201,12 @@ const legalLinks = [
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    color: inherit;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .status:hover {
+    color: var(--color-fg);
   }
 
   .dot {

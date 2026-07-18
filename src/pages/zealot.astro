@@ -465,6 +465,11 @@ import { MODULES, MILESTONES, POSITION_PILLARS } from '~/data/zealot';
     align-items: center;
   }
 
+  /* Let grid items shrink so scrollable code blocks don't expand the page */
+  .module > * {
+    min-width: 0;
+  }
+
   @media (max-width: 1024px) {
     .module {
       grid-template-columns: 1fr;

@@ -490,6 +490,12 @@ for chunk in stream:
     align-items: center;
   }
 
+  /* Grid items default to min-width:auto — let them shrink so the
+     code block's scrollable pre doesn't blow out the page width */
+  .code-section > * {
+    min-width: 0;
+  }
+
   @media (max-width: 880px) {
     .code-section {
       grid-template-columns: 1fr;

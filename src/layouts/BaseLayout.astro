@@ -42,20 +42,7 @@ const ogUrl = new URL(ogImage, SITE.url).toString();
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-    {/* Theme bootstrap: runs before paint to avoid FOUC */}
-    <script is:inline>
-      (function () {
-        try {
-          var stored = localStorage.getItem('ultralisk-theme');
-          var theme = stored || 'dark';
-          if (theme === 'dark' || theme === 'light') {
-            document.documentElement.setAttribute('data-theme', theme);
-          }
-        } catch (e) {
-          // localStorage blocked — default to dark
-        }
-      })();
-    </script>
+    {/* Theme follows the OS preference via prefers-color-scheme (tokens.css) */}
 
     {/* Icons */}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

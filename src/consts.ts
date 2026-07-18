@@ -17,10 +17,7 @@ export const NAV = [
   { href: '/models', label: 'Models' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/platform', label: 'Platform' },
-  { href: '/zealot', label: 'Engine' },
-  { href: '/changelog', label: 'Changelog' },
-  { href: '/docs', label: 'Quickstart' },
-  { href: '/contact', label: 'Request access' },
+  { href: '/docs', label: 'Docs' },
 ] as const;
 
 export type NavItem = (typeof NAV)[number];

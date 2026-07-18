@@ -1,10 +1,9 @@
 ---
 /**
  * Header — top navigation bar
- * Logo + nav links + theme toggle + primary CTA
+ * Logo + nav links + primary CTA
  */
 import Logo from './Logo.astro';
-import ThemeToggle from './ThemeToggle';
 import MobileNav from './MobileNav';
 import { NAV, SITE } from '~/consts';
 
@@ -37,7 +36,6 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
     </nav>
 
     <div class="actions">
-      <ThemeToggle client:load />
       <a href={SITE.consoleUrl} class="btn btn-secondary console-link">
         Sign in
       </a>
