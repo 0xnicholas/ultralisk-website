@@ -1,0 +1,131 @@
+---
+/**
+ * UptimeBar — 90-day rolling status visualization.
+ * Renders one rectangle per day, color-coded by status.
+ */
+import type { UptimeDay } from '~/data/status';
+import { STATUS_META, uptimePercent } from '~/data/status';
+
+export interface Props {
+  days: UptimeDay[];
+  /** Show "X days ago" tooltips — uses <time> elements */
+  showLabels?: boolean;
+}
+
+const { days, showLabels = true } = Astro.props;
+const percent = uptimePercent(days);
+
+// Build day labels every ~7 days for the axis
+const labelStride = Math.max(1, Math.floor(days.length / 8));
+---
+
+<div class="uptime-bar">
+  <div class="uptrack" role="img" aria-label={`${percent}% uptime over the last ${days.length} days`}>
+    {
+      days.map((d, i) => (
+        <span
+          class={`upday upday-${d.status}`}
+          title={`${d.date}: ${STATUS_META[d.status].label}`}
+          data-date={d.date}
+        />
+      ))
+    }
+  </div>
+  <div class="upmeta">
+    <span class="uppercent">{percent}%</span>
+    <span class="uplabel muted">uptime · last {days.length} days</span>
+  </div>
+  {
+    showLabels && (
+      <div class="upaxis muted" aria-hidden="true">
+        {days.map((d, i) =>
+          i % labelStride === 0 ? (
+            <span class="upaxis-label">{d.date.slice(5)}</span>
+          ) : (
+            <span class="upaxis-tick" />
+          )
+        )}
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .uptime-bar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .uptrack {
+    display: grid;
+    grid-template-columns: repeat(90, minmax(0, 1fr));
+    gap: 1px;
+    height: 32px;
+  }
+
+  .upday {
+    display: block;
+    height: 100%;
+    border-radius: 1px;
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .upday:hover {
+    transform: scaleY(1.2);
+    outline: 1px solid var(--color-fg);
+    outline-offset: 0;
+  }
+
+  .upday-operational {
+    background: #22c55e;
+  }
+
+  .upday-degraded {
+    background: #f59e0b;
+  }
+
+  .upday-outage {
+    background: #ef4444;
+  }
+
+  .upday-maintenance {
+    background: var(--color-cyan-400);
+  }
+
+  .upmeta {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+
+  .uppercent {
+    font-weight: 700;
+    font-size: var(--text-base);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-fg);
+  }
+
+  .uplabel {
+    font-size: var(--text-xs);
+  }
+
+  .upaxis {
+    display: grid;
+    grid-template-columns: repeat(90, minmax(0, 1fr));
+    gap: 1px;
+    font-size: 0.6rem;
+    font-family: var(--font-mono);
+    position: relative;
+    height: 1rem;
+  }
+
+  .upaxis-label {
+    grid-column: span 1;
+    white-space: nowrap;
+  }
+
+  .upaxis-tick {
+    grid-column: span 1;
+  }
+</style>

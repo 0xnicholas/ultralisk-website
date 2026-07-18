@@ -33,6 +33,7 @@ const PAGES = [
   { slug: 'docs', path: '/docs' },
   { slug: 'platform', path: '/platform' },
   { slug: 'zealot', path: '/zealot' },
+  { slug: 'status', path: '/status' },
   { slug: 'changelog', path: '/changelog' },
   { slug: 'changelog-entry', path: '/changelog/zealot-alpha' },
   { slug: 'contact', path: '/contact' },
