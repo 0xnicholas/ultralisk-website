@@ -144,7 +144,7 @@ export default function ModelFilter({ modelsJson, filtersJson }: Props) {
         }
         .chip.active {
           color: white;
-          background: var(--gradient-brand);
+          background: var(--color-accent);
           border-color: transparent;
         }
         .grid {
@@ -211,9 +211,9 @@ export default function ModelFilter({ modelsJson, filtersJson }: Props) {
           font-family: var(--font-mono);
         }
         .endpoint-serverless {
-          color: var(--color-cyan-400);
+          color: var(--color-accent);
         }
-        [data-theme='light'] .endpoint-serverless { color: var(--color-cyan-700); }
+        [data-theme='light'] .endpoint-serverless { color: var(--color-accent-2); }
         .row-footer {
           display: flex;
           justify-content: space-between;

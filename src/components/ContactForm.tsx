@@ -250,7 +250,7 @@ export default function ContactForm({ to, endpoint }: Props) {
         select:focus,
         textarea:focus {
           outline: none;
-          border-color: var(--color-violet-500);
+          border-color: var(--color-accent);
           box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
         }
         textarea {
@@ -268,7 +268,7 @@ export default function ContactForm({ to, endpoint }: Props) {
         }
         .consent input[type='checkbox'] {
           margin-top: 4px;
-          accent-color: var(--color-violet-500);
+          accent-color: var(--color-accent);
           width: 16px;
           height: 16px;
           flex-shrink: 0;

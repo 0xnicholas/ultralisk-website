@@ -1,37 +1,49 @@
 /* ============================================================================
-   Shiki syntax highlighting — brand-aligned theme via CSS variables.
-   Astro's <Code theme="css-variables"> outputs --shiki-* variables per token.
+   Shiki syntax highlighting — Curve-inspired retro-simple
    ============================================================================ */
 
 :root {
-  /* Code block surfaces */
-  --astro-code-foreground: #e4e4e7;
+  --astro-code-foreground: #1b1b1b;
   --astro-code-background: transparent;
-  --astro-code-token-constant: #c4b5fd; /* violet-300 */
-  --astro-code-token-string: #67e8f9; /* cyan-300 */
-  --astro-code-token-comment: #71717a; /* ink-500 */
-  --astro-code-token-keyword: #a78bfa; /* violet-400 */
-  --astro-code-token-parameter: #f4f4f5; /* ink-100 */
-  --astro-code-token-function: #22d3ee; /* cyan-400 */
-  --astro-code-token-string-expression: #fde68a; /* amber-200 */
-  --astro-code-token-punctuation: #a1a1aa; /* ink-400 */
-  --astro-code-token-link: #67e8f9; /* cyan-300 */
+  --astro-code-token-constant: hsl(225, 90%, 40%);
+  --astro-code-token-string: hsl(150, 40%, 35%);
+  --astro-code-token-comment: #8a837c;
+  --astro-code-token-keyword: hsl(225, 80%, 45%);
+  --astro-code-token-parameter: #1b1b1b;
+  --astro-code-token-function: hsl(225, 90%, 40%);
+  --astro-code-token-string-expression: hsl(35, 60%, 40%);
+  --astro-code-token-punctuation: #6b6560;
+  --astro-code-token-link: hsl(225, 90%, 40%);
 }
 
-[data-theme='light'] {
-  --astro-code-foreground: #27272a; /* ink-800 */
-  --astro-code-token-constant: #6d28d9; /* violet-600 */
-  --astro-code-token-string: #0e7490; /* cyan-700 */
-  --astro-code-token-comment: #71717a; /* ink-500 */
-  --astro-code-token-keyword: #6d28d9; /* violet-600 */
-  --astro-code-token-parameter: #18181b; /* ink-900 */
-  --astro-code-token-function: #0e7490; /* cyan-700 */
-  --astro-code-token-string-expression: #b45309; /* amber-700 */
-  --astro-code-token-punctuation: #52525b; /* ink-600 */
-  --astro-code-token-link: #0e7490; /* cyan-700 */
+[data-theme='dark'] {
+  --astro-code-foreground: #f0f0f0;
+  --astro-code-token-constant: hsl(225, 80%, 70%);
+  --astro-code-token-string: hsl(150, 40%, 60%);
+  --astro-code-token-comment: #7a736b;
+  --astro-code-token-keyword: hsl(225, 70%, 65%);
+  --astro-code-token-parameter: #f0f0f0;
+  --astro-code-token-function: hsl(225, 80%, 70%);
+  --astro-code-token-string-expression: hsl(35, 60%, 55%);
+  --astro-code-token-punctuation: #9d968e;
+  --astro-code-token-link: hsl(225, 80%, 70%);
 }
 
-/* These are the names Shiki emits when theme="css-variables" */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --astro-code-foreground: #f0f0f0;
+    --astro-code-token-constant: hsl(225, 80%, 70%);
+    --astro-code-token-string: hsl(150, 40%, 60%);
+    --astro-code-token-comment: #7a736b;
+    --astro-code-token-keyword: hsl(225, 70%, 65%);
+    --astro-code-token-parameter: #f0f0f0;
+    --astro-code-token-function: hsl(225, 80%, 70%);
+    --astro-code-token-string-expression: hsl(35, 60%, 55%);
+    --astro-code-token-punctuation: #9d968e;
+    --astro-code-token-link: hsl(225, 80%, 70%);
+  }
+}
+
 pre.astro-code,
 pre.astro-code span {
   color: var(--shiki-default) !important;

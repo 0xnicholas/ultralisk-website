@@ -2,57 +2,54 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0A0A0A"/>
-      <stop offset="60%" stop-color="#1a0a2e"/>
-      <stop offset="100%" stop-color="#0a1a2e"/>
+      <stop offset="0%" stop-color="#12110F"/>
+      <stop offset="60%" stop-color="#1a1814"/>
+      <stop offset="100%" stop-color="#141210"/>
     </linearGradient>
     <radialGradient id="glow" cx="50%" cy="0%" r="60%">
-      <stop offset="0%" stop-color="#7C3AED" stop-opacity="0.5"/>
-      <stop offset="60%" stop-color="#22D3EE" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#FF7B42" stop-opacity="0.25"/>
+      <stop offset="40%" stop-color="#F5C842" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#12110F" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="brand" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7C3AED"/>
-      <stop offset="100%" stop-color="#22D3EE"/>
+    <linearGradient id="thermal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7B42"/>
+      <stop offset="35%" stop-color="#F5C842"/>
+      <stop offset="65%" stop-color="#F57C42"/>
+      <stop offset="100%" stop-color="#3162F4"/>
     </linearGradient>
     <pattern id="grid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
-      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
     </pattern>
   </defs>
 
-  <!-- Background -->
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect width="1200" height="630" fill="url(#grid)"/>
   <rect width="1200" height="630" fill="url(#glow)"/>
 
-  <!-- Logo + brand wordmark -->
   <g transform="translate(96, 96)">
     <g transform="translate(0, 0) scale(0.5)">
-      <path d="M 12 12 C 48.64 26.02, 73.98 51.36, 88 88 C 51.36 73.98, 26.02 48.64, 12 12 Z" fill="url(#brand)"/>
-      <path d="M 88 12 C 51.36 26.02, 26.02 48.64, 12 88 C 48.64 73.98, 73.98 48.64, 88 12 Z" fill="url(#brand)"/>
+      <path d="M 12 12 C 48.64 26.02, 73.98 51.36, 88 88 C 51.36 73.98, 26.02 48.64, 12 12 Z" fill="url(#thermal)"/>
+      <path d="M 88 12 C 51.36 26.02, 26.02 48.64, 12 88 C 48.64 73.98, 73.98 48.64, 88 12 Z" fill="url(#thermal)"/>
     </g>
-    <text x="64" y="34" font-family="Inter, -apple-system, sans-serif" font-size="34" font-weight="700" fill="url(#brand)" letter-spacing="-1">Ultralisk</text>
+    <text x="64" y="34" font-family="'Instrument Sans', -apple-system, sans-serif" font-size="34" font-weight="700" fill="url(#thermal)" letter-spacing="-1">Ultralisk</text>
   </g>
 
-  <!-- Tagline -->
-  <g transform="translate(96, 230)" font-family="Inter, -apple-system, sans-serif">
-    <text font-size="72" font-weight="700" fill="white" letter-spacing="-2">
-      <tspan x="0" y="0">Open-source LLMs.</tspan>
+  <g transform="translate(96, 230)" font-family="'Instrument Sans', -apple-system, sans-serif">
+    <text font-size="72" font-weight="700" fill="#f0f0f0" letter-spacing="-2">
+      <tspan x="0" y="0">Run open models.</tspan>
     </text>
-    <text font-size="72" font-weight="700" fill="url(#brand)" letter-spacing="-2">
-      <tspan x="0" y="92">OpenAI-compatible API.</tspan>
+    <text font-size="72" font-weight="700" fill="url(#thermal)" letter-spacing="-2">
+      <tspan x="0" y="92">On our engine.</tspan>
     </text>
-    <text font-size="72" font-weight="700" fill="white" letter-spacing="-2">
-      <tspan x="0" y="184">Pay per token.</tspan>
+    <text font-size="28" fill="#9d968e" letter-spacing="0">
+      <tspan x="0" y="146">OpenAI-compatible inference. Per token. No lock-in.</tspan>
     </text>
   </g>
 
-  <!-- Footer line -->
   <g transform="translate(96, 555)" font-family="JetBrains Mono, ui-monospace, monospace">
-    <rect x="0" y="-22" width="14" height="14" rx="3" fill="#22c55e"/>
-    <text x="26" y="-9" font-size="16" fill="#a1a1aa">Phase 1 · 2 models · OpenAI-compatible · token-priced</text>
+    <rect x="0" y="-22" width="14" height="14" fill="#1fa25e"/>
+    <text x="26" y="-9" font-size="16" fill="#9d968e">Phase 1 · 2 models · OpenAI-compatible · token-priced</text>
   </g>
 
-  <!-- Bottom-right URL -->
-  <text x="1104" y="585" font-family="JetBrains Mono, ui-monospace, monospace" font-size="18" fill="#71717a" text-anchor="end">ultralisk.io</text>
+  <text x="1104" y="585" font-family="JetBrains Mono, ui-monospace, monospace" font-size="18" fill="#7a736b" text-anchor="end">ultralisk.io</text>
 </svg>

@@ -95,10 +95,9 @@ const payloads = tabs.map((t) => JSON.stringify(t.code));
 
   .window {
     background: var(--color-bg-code);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
+    border: 2px solid var(--color-fg);
     overflow: hidden;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
   }
 
   .window-header {
@@ -107,7 +106,7 @@ const payloads = tabs.map((t) => JSON.stringify(t.code));
     gap: var(--space-3);
     padding: var(--space-2) var(--space-4);
     background: var(--color-bg-elevated);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 2px solid var(--color-fg);
   }
 
   .dots {
@@ -119,7 +118,6 @@ const payloads = tabs.map((t) => JSON.stringify(t.code));
   .dots span {
     width: 10px;
     height: 10px;
-    border-radius: 50%;
     background: var(--color-border-strong);
   }
 

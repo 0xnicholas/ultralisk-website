@@ -1,9 +1,9 @@
 // Site-wide constants and configuration
 export const SITE = {
   name: 'Ultralisk',
-  tagline: 'Open-source LLMs. OpenAI-compatible. Pay per token.',
+  tagline: 'Run open models. On our engine.',
   description:
-    'Ultralisk is an AI inference cloud for open-source large language models. OpenAI-compatible API, transparent pricing, GPU-aware operations.',
+    'Ultralisk is an AI inference cloud for open-source LLMs. OpenAI-compatible API, per-token pricing, powered by a self-built Rust inference engine.',
   url: 'https://ultralisk.io',
   email: 'hello@ultralisk.io',
   consoleUrl: 'https://console.ultralisk.io',

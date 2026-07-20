@@ -28,7 +28,7 @@ async function main() {
     const png = await sharp(svg, { density: 300 })
       .resize(1200, 630, {
         fit: 'contain',
-        background: { r: 10, g: 10, b: 10, alpha: 1 },
+        background: { r: 18, g: 17, b: 15, alpha: 1 },
       })
       .png({ compressionLevel: 9, quality: 95 })
       .toBuffer();

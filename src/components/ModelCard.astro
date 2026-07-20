@@ -65,10 +65,10 @@ const { model, compact = false } = Astro.props;
   .vendor {
     display: inline-block;
     font-size: var(--text-xs);
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
-    color: var(--color-accent);
+    color: var(--color-fg-muted);
     margin-bottom: var(--space-2);
   }
 
@@ -89,8 +89,8 @@ const { model, compact = false } = Astro.props;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-3);
     padding-block: var(--space-4);
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-fg);
+    border-bottom: 2px solid var(--color-fg);
   }
 
   .stats dt {

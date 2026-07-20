@@ -126,12 +126,12 @@ const phaseLabel = (p: number) => (p === 1 ? 'Available now' : p === 2 ? 'Phase 
               <svg class="chart-svg" viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true">
                 <defs>
                   <linearGradient id="llama-fill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.6"/>
-                    <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+                    <stop offset="0%" stop-color="#3162f4" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#3162f4" stop-opacity="0"/>
                   </linearGradient>
                   <linearGradient id="mistral-fill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.5"/>
-                    <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+                    <stop offset="0%" stop-color="#3162f4" stop-opacity="0.5"/>
+                    <stop offset="100%" stop-color="#3162f4" stop-opacity="0"/>
                   </linearGradient>
                 </defs>
                 <g stroke="rgba(255,255,255,0.06)">
@@ -140,9 +140,9 @@ const phaseLabel = (p: number) => (p === 1 ? 'Available now' : p === 2 ? 'Phase 
                   <line x1="0" y1="105" x2="600" y2="105"/>
                 </g>
                 <path d="M 0 90 L 30 80 L 60 70 L 90 75 L 120 50 L 150 45 L 180 55 L 210 35 L 240 40 L 270 30 L 300 25 L 330 35 L 360 20 L 390 30 L 420 25 L 450 40 L 480 30 L 510 50 L 540 45 L 570 60 L 600 50 L 600 140 L 0 140 Z" fill="url(#llama-fill)"/>
-                <path d="M 0 90 L 30 80 L 60 70 L 90 75 L 120 50 L 150 45 L 180 55 L 210 35 L 240 40 L 270 30 L 300 25 L 330 35 L 360 20 L 390 30 L 420 25 L 450 40 L 480 30 L 510 50 L 540 45 L 570 60 L 600 50" stroke="#a78bfa" stroke-width="2" fill="none"/>
+                <path d="M 0 90 L 30 80 L 60 70 L 90 75 L 120 50 L 150 45 L 180 55 L 210 35 L 240 40 L 270 30 L 300 25 L 330 35 L 360 20 L 390 30 L 420 25 L 450 40 L 480 30 L 510 50 L 540 45 L 570 60 L 600 50" stroke="#5b8af7" stroke-width="2" fill="none"/>
                 <path d="M 0 115 L 50 110 L 100 105 L 150 100 L 200 95 L 250 100 L 300 92 L 350 90 L 400 88 L 450 95 L 500 90 L 550 95 L 600 100 L 600 140 L 0 140 Z" fill="url(#mistral-fill)"/>
-                <path d="M 0 115 L 50 110 L 100 105 L 150 100 L 200 95 L 250 100 L 300 92 L 350 90 L 400 88 L 450 95 L 500 90 L 550 95 L 600 100" stroke="#22d3ee" stroke-width="2" fill="none"/>
+                <path d="M 0 115 L 50 110 L 100 105 L 150 100 L 200 95 L 250 100 L 300 92 L 350 90 L 400 88 L 450 95 L 500 90 L 550 95 L 600 100" stroke="#3162f4" stroke-width="2" fill="none"/>
               </svg>
             </div>
 
@@ -150,8 +150,8 @@ const phaseLabel = (p: number) => (p === 1 ? 'Available now' : p === 2 ? 'Phase 
               <div class="breakdown-row">
                 <span class="breakdown-label">By model</span>
                 <div class="breakdown-bar">
-                  <span class="bb-seg" style="width:62%; background: linear-gradient(90deg, #7c3aed, #a78bfa);"></span>
-                  <span class="bb-seg" style="width:22%; background: linear-gradient(90deg, #22d3ee, #67e8f9);"></span>
+                  <span class="bb-seg" style="width:62%; background: linear-gradient(90deg, #3162f4, #5b8af7);"></span>
+                  <span class="bb-seg" style="width:22%; background: linear-gradient(90deg, #3162f4, #5b8af7);"></span>
                   <span class="bb-seg" style="width:8%; background: #3f3f46;"></span>
                 </div>
                 <span class="breakdown-meta muted">70B · 8B · other</span>
@@ -159,8 +159,8 @@ const phaseLabel = (p: number) => (p === 1 ? 'Available now' : p === 2 ? 'Phase 
               <div class="breakdown-row">
                 <span class="breakdown-label">By tenant</span>
                 <div class="breakdown-bar">
-                  <span class="bb-seg" style="width:48%; background: linear-gradient(90deg, #7c3aed, #a78bfa);"></span>
-                  <span class="bb-seg" style="width:31%; background: linear-gradient(90deg, #22d3ee, #67e8f9);"></span>
+                  <span class="bb-seg" style="width:48%; background: linear-gradient(90deg, #3162f4, #5b8af7);"></span>
+                  <span class="bb-seg" style="width:31%; background: linear-gradient(90deg, #3162f4, #5b8af7);"></span>
                   <span class="bb-seg" style="width:21%; background: #52525b;"></span>
                 </div>
                 <span class="breakdown-meta muted">acme · globex · initech</span>
@@ -244,8 +244,8 @@ const phaseLabel = (p: number) => (p === 1 ? 'Available now' : p === 2 ? 'Phase 
               <div class="breakdown-row">
                 <span class="breakdown-label">By endpoint</span>
                 <div class="breakdown-bar">
-                  <span class="bb-seg" style="width:55%; background: linear-gradient(90deg, #7c3aed, #a78bfa);"></span>
-                  <span class="bb-seg" style="width:38%; background: linear-gradient(90deg, #22d3ee, #67e8f9);"></span>
+                  <span class="bb-seg" style="width:55%; background: linear-gradient(90deg, #3162f4, #5b8af7);"></span>
+                  <span class="bb-seg" style="width:38%; background: linear-gradient(90deg, #3162f4, #5b8af7);"></span>
                   <span class="bb-seg" style="width:7%; background: #3f3f46;"></span>
                 </div>
                 <span class="breakdown-meta muted">serverless · batch · reserved</span>
@@ -318,7 +318,7 @@ const phaseLabel = (p: number) => (p === 1 ? 'Available now' : p === 2 ? 'Phase 
   .hero-glow {
     position: absolute;
     inset: 0;
-    background: var(--gradient-glow);
+    background: var(--color-bg-subtle);
     z-index: -1;
     pointer-events: none;
   }
@@ -434,7 +434,7 @@ const phaseLabel = (p: number) => (p === 1 ? 'Available now' : p === 2 ? 'Phase 
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: var(--gradient-brand);
+    background: var(--color-accent);
     color: white;
     font-weight: 700;
     font-size: var(--text-base);
@@ -457,16 +457,16 @@ const phaseLabel = (p: number) => (p === 1 ? 'Available now' : p === 2 ? 'Phase 
 
   .persona-badge.phase-2 {
     background: rgba(34, 211, 238, 0.12);
-    color: var(--color-cyan-400);
+    color: var(--color-accent);
   }
 
   [data-theme='light'] .persona-badge.phase-2 {
-    color: var(--color-cyan-700);
+    color: var(--color-accent-2);
   }
 
   .persona-badge.phase-3 {
     background: rgba(124, 58, 237, 0.12);
-    color: var(--color-violet-400);
+    color: var(--color-accent);
   }
 
   .persona-story {
@@ -565,7 +565,7 @@ const phaseLabel = (p: number) => (p === 1 ? 'Available now' : p === 2 ? 'Phase 
     font-weight: 600;
     padding: 0.15rem 0.5rem;
     border-radius: var(--radius-full);
-    background: var(--gradient-brand);
+    background: var(--color-accent);
     color: white;
   }
 
@@ -679,11 +679,11 @@ const phaseLabel = (p: number) => (p === 1 ? 'Available now' : p === 2 ? 'Phase 
   }
 
   .legend-swatch.llama {
-    background: #a78bfa;
+    background: #5b8af7;
   }
 
   .legend-swatch.mistral {
-    background: #22d3ee;
+    background: #3162f4;
   }
 
   .chart-svg {
@@ -813,11 +813,11 @@ const phaseLabel = (p: number) => (p === 1 ? 'Available now' : p === 2 ? 'Phase 
   }
 
   .cap.phase-2::before {
-    background: var(--color-cyan-400);
+    background: var(--color-accent);
   }
 
   .cap.phase-3::before {
-    background: var(--color-violet-500);
+    background: var(--color-accent);
   }
 
   .cap > header {

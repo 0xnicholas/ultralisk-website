@@ -56,10 +56,8 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
     position: sticky;
     top: 0;
     z-index: var(--z-header);
-    background: color-mix(in srgb, var(--color-bg) 80%, transparent);
-    backdrop-filter: saturate(180%) blur(12px);
-    -webkit-backdrop-filter: saturate(180%) blur(12px);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+    border-bottom: 2px solid var(--color-fg);
   }
 
   .header-inner {
@@ -81,10 +79,8 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
   }
 
   .wordmark {
-    background: var(--gradient-text);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--color-fg);
+    font-weight: 700;
   }
 
   .nav {
@@ -103,21 +99,22 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
   .nav-link {
     display: inline-block;
     padding: 0.5rem 0.875rem;
-    border-radius: var(--radius-md);
     font-size: var(--text-sm);
-    font-weight: 500;
+    font-weight: 600;
     color: var(--color-fg-muted);
+    border: 2px solid transparent;
     transition: color var(--duration-fast) var(--ease-out),
-      background var(--duration-fast) var(--ease-out);
+      border-color var(--duration-fast) var(--ease-out);
   }
 
   .nav-link:hover {
     color: var(--color-fg);
-    background: var(--color-bg-subtle);
+    border-color: var(--color-fg);
   }
 
   .nav-link.active {
     color: var(--color-fg);
+    border-color: var(--color-fg);
   }
 
   .actions {
